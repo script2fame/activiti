@@ -6,6 +6,7 @@ import org.junit.Test;
 
 public class TestActiviti {
 
+	/** 使用非配置文件创建工作流需要的23张表 */
 	@Test
 	public void createTable() {
 		ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration
@@ -15,7 +16,7 @@ public class TestActiviti {
 		processEngineConfiguration
 				.setJdbcUrl("jdbc:mysql://localhost:3306/hung_activiti?useUnicode=true&characterEncoding=utf8");
 		processEngineConfiguration.setJdbcUsername("root");
-		processEngineConfiguration.setJdbcPassword("root");
+		processEngineConfiguration.setJdbcPassword("hungteshun");
 
 		/**
 		 * public static final String DB_SCHEMA_UPDATE_FALSE =
@@ -29,5 +30,18 @@ public class TestActiviti {
 		System.out.println("processEngine:" + processEngine);
 	}
 
-	
+	/** 使用配置文件创建工作流需要的23张表 */
+	@Test
+	public void createTable_2() {
+		// ProcessEngineConfiguration processEngineConfiguration =
+		// ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml");
+		// //工作流的核心对象，ProcessEnginee对象
+		// ProcessEngine processEngine =
+		// processEngineConfiguration.buildProcessEngine();
+
+		ProcessEngine processEngine = ProcessEngineConfiguration
+				.createProcessEngineConfigurationFromResource("activiti.cfg.xml") //
+				.buildProcessEngine();
+		System.out.println("processEngine:" + processEngine);
+	}
 }

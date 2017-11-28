@@ -16,7 +16,7 @@ public class TestActiviti {
 		processEngineConfiguration
 				.setJdbcUrl("jdbc:mysql://localhost:3306/hung_activiti?useUnicode=true&characterEncoding=utf8");
 		processEngineConfiguration.setJdbcUsername("root");
-		processEngineConfiguration.setJdbcPassword("root");
+		processEngineConfiguration.setJdbcPassword("hungteshun");
 
 		/**
 		 * public static final String DB_SCHEMA_UPDATE_FALSE =

@@ -26,6 +26,5 @@ hs_err_pid*
 .settings
 bin
 lib
-test
 build
 

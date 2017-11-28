@@ -3,10 +3,13 @@ package com.hungteshun;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngineConfiguration;
 import org.junit.Test;
-
+/**
+ * 创建activiti系统级的23张表
+ * @author hungteshun
+ *
+ */
 public class TestActiviti {
 
-	/** 使用非配置文件创建工作流需要的23张表 */
 	@Test
 	public void createTable() {
 		ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration
@@ -16,7 +19,7 @@ public class TestActiviti {
 		processEngineConfiguration
 				.setJdbcUrl("jdbc:mysql://localhost:3306/hung_activiti?useUnicode=true&characterEncoding=utf8");
 		processEngineConfiguration.setJdbcUsername("root");
-		processEngineConfiguration.setJdbcPassword("hungteshun");
+		processEngineConfiguration.setJdbcPassword("root");
 
 		/**
 		 * public static final String DB_SCHEMA_UPDATE_FALSE =

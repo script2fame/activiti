@@ -1,9 +1,12 @@
 package com.hungteshun;
 
+import java.util.List;
+
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.junit.Test;
 
 /**
@@ -38,4 +41,27 @@ public class HelloActiviti {
 		System.out.println("流程实例ID:"+pi.getId());//流程实例ID
 		System.out.println("流程定义ID:"+pi.getProcessDefinitionId());//流程定义ID
 	}
+	
+	/**查询当前人的个人任务*/
+	@Test
+	public void findMyPersonalTask(){
+		String assignee = "张三";
+		List<Task> list = processEngine.getTaskService()//与正在执行的任务管理相关的Service
+						.createTaskQuery()//创建任务查询对象
+						.taskAssignee(assignee)//指定个人任务查询，指定办理人
+						.list();
+		if(list!=null && list.size()>0){
+			for(Task task:list){
+				System.out.println("任务ID:"+task.getId());
+				System.out.println("任务名称:"+task.getName());
+				System.out.println("任务的创建时间:"+task.getCreateTime());
+				System.out.println("任务的办理人:"+task.getAssignee());
+				System.out.println("流程实例ID："+task.getProcessInstanceId());
+				System.out.println("执行对象ID:"+task.getExecutionId());
+				System.out.println("流程定义ID:"+task.getProcessDefinitionId());
+				System.out.println("########################################################");
+			}
+		}
+	}
+	
 }

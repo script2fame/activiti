@@ -3,6 +3,7 @@ package com.hungteshun;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.junit.Test;
 
 /**
@@ -25,5 +26,16 @@ public class HelloActiviti {
 						.deploy();//创建部署对象
 		System.out.println("部署ID："+deployment.getId());//1
 		System.out.println("部署名称："+deployment.getName());//部署helloActiviti工程
+	}
+	
+	/**启动流程实例*/
+	@Test
+	public void startProcessInstance(){
+		//流程定义的key
+		String processDefinitionKey = "helloActiviti";
+		ProcessInstance pi = processEngine.getRuntimeService()//与正在执行的流程实例和执行对象相关的Service
+						.startProcessInstanceByKey(processDefinitionKey);
+		System.out.println("流程实例ID:"+pi.getId());
+		System.out.println("流程定义ID:"+pi.getProcessDefinitionId());
 	}
 }

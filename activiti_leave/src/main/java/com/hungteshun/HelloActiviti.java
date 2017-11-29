@@ -45,7 +45,7 @@ public class HelloActiviti {
 	/**查询当前人的个人任务*/
 	@Test
 	public void findMyPersonalTask(){
-		String assignee = "张三";
+		String assignee = "王五";
 		List<Task> list = processEngine.getTaskService()//与正在执行的任务管理相关的Service
 						.createTaskQuery()//创建任务查询对象
 						.taskAssignee(assignee)//指定个人任务查询，指定办理人
@@ -68,7 +68,7 @@ public class HelloActiviti {
 	@Test
 	public void completeMyPersonalTask(){
 		//任务ID
-		String taskId = "104";
+		String taskId = "302";
 		processEngine.getTaskService()//与正在执行的任务管理相关的Service
 					.complete(taskId);
 		System.out.println("完成任务：任务ID："+taskId);

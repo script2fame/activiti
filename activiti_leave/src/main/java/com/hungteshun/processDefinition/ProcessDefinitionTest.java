@@ -147,9 +147,10 @@ public class ProcessDefinitionTest {
 				.orderByProcessDefinitionVersion().asc()// 使用流程定义的版本升序排列
 				.list();
 		/**
-		 * Map<String,ProcessDefinition> map集合的key：流程定义的key
-		 * map集合的value：流程定义的对象
-		 * map集合的特点：当map集合key值相同的情况下，后一次的值将替换前一次的值
+		 * Map<String,ProcessDefinition> 
+		 * map集合的key:流程定义的key
+		 * map集合的value:流程定义对象
+		 * map集合的特点:当map集合key值相同的情况下，后一次的值将替换前一次的值
 		 */
 		Map<String, ProcessDefinition> map = new LinkedHashMap<String, ProcessDefinition>();
 		if (list != null && list.size() > 0) {

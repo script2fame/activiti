@@ -67,7 +67,7 @@ public class ProcessDefinitionTest {
 				// .listPage(firstResult, maxResults);//分页查询
 				/** 返回的结果集 */
 				.list();// 返回一个集合列表，封装流程定义
-		
+
 		if (list != null && list.size() > 0) {
 			for (ProcessDefinition pd : list) {
 				System.out.println("流程定义ID:" + pd.getId());// 流程定义的key+版本+随机生成数
@@ -81,4 +81,24 @@ public class ProcessDefinitionTest {
 			}
 		}
 	}
+
+	/** 删除流程定义 */
+	@Test
+	public void deleteProcessDefinition() {
+		// 使用部署ID，完成删除
+		String deploymentId = "601";
+		/**
+		 * 不带级联的删除 只能删除没有启动的流程，如果流程启动，就会抛出异常
+		 */
+		// processEngine.getRepositoryService()//
+		// .deleteDeployment(deploymentId);
+
+		/**
+		 * 级联删除 不管流程是否启动，都能可以删除
+		 */
+		processEngine.getRepositoryService()//
+				.deleteDeployment(deploymentId, true);
+		System.out.println("删除成功！");
+	}
+	
 }

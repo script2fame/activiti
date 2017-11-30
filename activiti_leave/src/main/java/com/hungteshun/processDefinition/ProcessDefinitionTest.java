@@ -147,9 +147,7 @@ public class ProcessDefinitionTest {
 				.orderByProcessDefinitionVersion().asc()// 使用流程定义的版本升序排列
 				.list();
 		/**
-		 * Map<String,ProcessDefinition> 
-		 * map集合的key:流程定义的key
-		 * map集合的value:流程定义对象
+		 * Map<String,ProcessDefinition> map集合的key:流程定义的key map集合的value:流程定义对象
 		 * map集合的特点:当map集合key值相同的情况下，后一次的值将替换前一次的值
 		 */
 		Map<String, ProcessDefinition> map = new LinkedHashMap<String, ProcessDefinition>();
@@ -172,6 +170,25 @@ public class ProcessDefinitionTest {
 			}
 		}
 	}
-	
-	
+
+	/** 附加功能：删除流程定义（删除key相同的所有不同版本的流程定义） */
+	@Test
+	public void deleteProcessDefinitionByKey() {
+		// 流程定义的key
+		String processDefinitionKey = "helloActiviti";
+		// 先使用流程定义的key查询流程定义，查询出所有的版本
+		List<ProcessDefinition> list = processEngine.getRepositoryService()//
+				.createProcessDefinitionQuery()//
+				.processDefinitionKey(processDefinitionKey)// 使用流程定义的key查询
+				.list();
+		// 遍历，获取每个流程定义的部署ID
+		if (list != null && list.size() > 0) {
+			for (ProcessDefinition pd : list) {
+				// 获取部署ID
+				String deploymentId = pd.getDeploymentId();
+				processEngine.getRepositoryService()//
+						.deleteDeployment(deploymentId, true);
+			}
+		}
+	}
 }

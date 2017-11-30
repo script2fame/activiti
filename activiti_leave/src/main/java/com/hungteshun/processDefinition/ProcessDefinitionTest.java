@@ -3,7 +3,10 @@ package com.hungteshun.processDefinition;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipInputStream;
 
 import org.activiti.engine.ProcessEngine;
@@ -135,4 +138,40 @@ public class ProcessDefinitionTest {
 		// 将输入流的图片写到D盘下
 		FileUtils.copyInputStreamToFile(in, file);
 	}
+
+	/*** 附加功能：查询最新版本的流程定义 */
+	@Test
+	public void findLastVersionProcessDefinition() {
+		List<ProcessDefinition> list = processEngine.getRepositoryService()//
+				.createProcessDefinitionQuery()//
+				.orderByProcessDefinitionVersion().asc()// 使用流程定义的版本升序排列
+				.list();
+		/**
+		 * Map<String,ProcessDefinition> 
+		 * map集合的key:流程定义的key
+		 * map集合的value:流程定义对象
+		 * map集合的特点:当map集合key值相同的情况下，后一次的值将替换前一次的值
+		 */
+		Map<String, ProcessDefinition> map = new LinkedHashMap<String, ProcessDefinition>();
+		if (list != null && list.size() > 0) {
+			for (ProcessDefinition pd : list) {
+				map.put(pd.getKey(), pd);
+			}
+		}
+		List<ProcessDefinition> pdList = new ArrayList<ProcessDefinition>(map.values());
+		if (pdList != null && pdList.size() > 0) {
+			for (ProcessDefinition pd : pdList) {
+				System.out.println("流程定义ID:" + pd.getId());// 流程定义的key+版本+随机生成数
+				System.out.println("流程定义的名称:" + pd.getName());// 对应helloworld.bpmn文件中的name属性值
+				System.out.println("流程定义的key:" + pd.getKey());// 对应helloworld.bpmn文件中的id属性值
+				System.out.println("流程定义的版本:" + pd.getVersion());// 当流程定义的key值相同的相同下，版本升级，默认1
+				System.out.println("资源名称bpmn文件:" + pd.getResourceName());
+				System.out.println("资源名称png文件:" + pd.getDiagramResourceName());
+				System.out.println("部署对象ID：" + pd.getDeploymentId());
+				System.out.println("#########################################################");
+			}
+		}
+	}
+	
+	
 }

@@ -1,5 +1,7 @@
 package com.hungteshun.processDefinition;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.zip.ZipInputStream;
@@ -8,6 +10,7 @@ import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
 /**
@@ -100,5 +103,36 @@ public class ProcessDefinitionTest {
 				.deleteDeployment(deploymentId, true);
 		System.out.println("删除成功！");
 	}
-	
+
+	/**
+	 * 查看流程图
+	 * 
+	 * @throws IOException
+	 */
+	@Test
+	public void viewPic() throws IOException {
+		/** 将生成图片放到文件夹下 */
+		String deploymentId = "701";
+		// 获取图片资源名称
+		List<String> list = processEngine.getRepositoryService()// 与流程定义和部署对象相关的Service
+				.getDeploymentResourceNames(deploymentId);
+		// 定义图片资源的名称
+		String resourceName = "";
+		if (list != null && list.size() > 0) {
+			for (String name : list) {
+				if (name.indexOf(".png") >= 0) {
+					resourceName = name;
+				}
+			}
+		}
+		System.out.println("图片名称为：" + resourceName);
+		// 获取图片的输入流
+		InputStream in = processEngine.getRepositoryService()//
+				.getResourceAsStream(deploymentId, resourceName);
+
+		// 将图片生成到D盘的目录下
+		File file = new File("D:/" + resourceName);
+		// 将输入流的图片写到D盘下
+		FileUtils.copyInputStreamToFile(in, file);
+	}
 }

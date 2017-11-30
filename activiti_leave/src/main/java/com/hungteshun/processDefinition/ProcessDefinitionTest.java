@@ -62,11 +62,12 @@ public class ProcessDefinitionTest {
 				.orderByProcessDefinitionVersion().asc()// 按照版本的升序排列
 				// .orderByProcessDefinitionName().desc()//按照流程定义的名称降序排列
 
+				// .singleResult();//返回惟一结果集
+				// .count();//返回结果集数量
+				// .listPage(firstResult, maxResults);//分页查询
 				/** 返回的结果集 */
 				.list();// 返回一个集合列表，封装流程定义
-		// .singleResult();//返回惟一结果集
-		// .count();//返回结果集数量
-		// .listPage(firstResult, maxResults);//分页查询
+		
 		if (list != null && list.size() > 0) {
 			for (ProcessDefinition pd : list) {
 				System.out.println("流程定义ID:" + pd.getId());// 流程定义的key+版本+随机生成数

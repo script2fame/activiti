@@ -6,6 +6,7 @@ import java.util.zip.ZipInputStream;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -101,4 +102,22 @@ public class ProcessInstanceTest {
 			System.out.println("流程没有结束");
 		}
 	}
+
+	/** 查询历史任务 **/
+	@Test
+	public void findHistoryTask() {
+		String taskAssignee = "张三";
+		List<HistoricTaskInstance> list = processEngine.getHistoryService()// 与历史数据（历史表）相关的Service
+				.createHistoricTaskInstanceQuery()// 创建历史任务实例查询
+				.taskAssignee(taskAssignee)// 指定历史任务的办理人
+				.list();
+		if (list != null && list.size() > 0) {
+			for (HistoricTaskInstance hti : list) {
+				System.out.println(hti.getId() + "    " + hti.getName() + "    " + hti.getProcessInstanceId() + "   "
+						+ hti.getStartTime() + "   " + hti.getEndTime() + "   " + hti.getDurationInMillis());
+			}
+		}
+	}
+	
+	
 }

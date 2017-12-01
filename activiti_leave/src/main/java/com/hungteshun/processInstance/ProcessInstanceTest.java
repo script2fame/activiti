@@ -86,4 +86,19 @@ public class ProcessInstanceTest {
 				.complete(taskId);
 		System.out.println("完成任务：任务ID：" + taskId);
 	}
+
+	/** 查询流程实例状态（判断流程正在执行，还是结束） */
+	@Test
+	public void isProcessEnd() {
+		String processInstanceId = "101";
+		ProcessInstance pi = processEngine.getRuntimeService()// 表示正在执行的流程实例和执行对象
+				.createProcessInstanceQuery()// 创建流程实例查询
+				.processInstanceId(processInstanceId)// 使用流程实例ID查询
+				.singleResult();
+		if (pi == null) {
+			System.out.println("流程已经结束");
+		} else {
+			System.out.println("流程没有结束");
+		}
+	}
 }

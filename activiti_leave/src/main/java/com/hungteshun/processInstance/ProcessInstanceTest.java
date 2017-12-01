@@ -120,10 +120,24 @@ public class ProcessInstanceTest {
 				System.out.println("历史的流程实例id：" + hti.getProcessInstanceId());
 				System.out.println("历史的任务开始时间：" + hti.getStartTime());
 				System.out.println("历史的任务结束时间：" + hti.getEndTime());
-				System.out.println("历史的任务持续时间：" + hti.getDurationInMillis()/1000/60 + "分钟");
+				System.out.println("历史的任务持续时间：" + hti.getDurationInMillis() / 1000 / 60 + "分钟");
 				System.out.println("########################################################");
 			}
 		}
 	}
-	
+
+	/** 查询历史流程实例 */
+	@Test
+	public void findHistoryProcessInstance() {
+		String processInstanceId = "101";
+		HistoricProcessInstance hpi = processEngine.getHistoryService()// 与历史数据（历史表）相关的Service
+				.createHistoricProcessInstanceQuery()// 创建历史流程实例查询
+				.processInstanceId(processInstanceId)// 使用流程实例ID查询
+				.singleResult();
+		System.out.println("历史的流程实例id：" + hpi.getId());
+		System.out.println("历史的流程定义id：" + hpi.getProcessDefinitionId());
+		System.out.println("历史的流程开始时间：" + hpi.getStartTime());
+		System.out.println("历史的流程结束时间：" + hpi.getEndTime());
+		System.out.println("历史的流程持续时间：" + hpi.getDurationInMillis());
+	}
 }

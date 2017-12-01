@@ -23,14 +23,15 @@ public class ProcessInstanceTest {
 	public void deploymentProcessDefinition_zip() {
 		InputStream in = this.getClass().getClassLoader().getResourceAsStream("diagrams/helloActiviti.zip");
 		ZipInputStream zipInputStream = new ZipInputStream(in);
-		Deployment deployment = processEngine.getRepositoryService()// 与流程定义和部署对象相关的Service
-				.createDeployment()// 创建一个部署对象
-				.name("流程定义")// 添加部署的名称
-				.addZipInputStream(zipInputStream)// 指定zip格式的文件完成部署
+		Deployment deployment = processEngine.getRepositoryService()
+				.createDeployment()
+				.name("流程定义")
+				.addZipInputStream(zipInputStream)
 				.deploy();// 完成部署
-		System.out.println("部署ID：" + deployment.getId());//
-		System.out.println("部署名称：" + deployment.getName());//
+		System.out.println("部署ID：" + deployment.getId());
+		System.out.println("部署名称：" + deployment.getName());
 	}
+	
 	
 	
 }

@@ -6,6 +6,7 @@ import java.util.zip.ZipInputStream;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -113,11 +114,16 @@ public class ProcessInstanceTest {
 				.list();
 		if (list != null && list.size() > 0) {
 			for (HistoricTaskInstance hti : list) {
-				System.out.println(hti.getId() + "    " + hti.getName() + "    " + hti.getProcessInstanceId() + "   "
-						+ hti.getStartTime() + "   " + hti.getEndTime() + "   " + hti.getDurationInMillis());
+				System.out.println("########################################################");
+				System.out.println("历史的任务实例id：" + hti.getId());
+				System.out.println("历史的任务实例名称：" + hti.getName());
+				System.out.println("历史的流程实例id：" + hti.getProcessInstanceId());
+				System.out.println("历史的任务开始时间：" + hti.getStartTime());
+				System.out.println("历史的任务结束时间：" + hti.getEndTime());
+				System.out.println("历史的任务持续时间：" + hti.getDurationInMillis()/1000/60 + "分钟");
+				System.out.println("########################################################");
 			}
 		}
 	}
-	
 	
 }

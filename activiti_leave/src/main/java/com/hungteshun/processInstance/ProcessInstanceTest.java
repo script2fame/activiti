@@ -64,6 +64,7 @@ public class ProcessInstanceTest {
 				.list();// 返回列表
 		if (list != null && list.size() > 0) {
 			for (Task task : list) {
+				System.out.println("########################################################");
 				System.out.println("任务ID:" + task.getId());
 				System.out.println("任务名称:" + task.getName());
 				System.out.println("任务的创建时间:" + task.getCreateTime());
@@ -71,6 +72,7 @@ public class ProcessInstanceTest {
 				System.out.println("流程实例ID：" + task.getProcessInstanceId());
 				System.out.println("执行对象ID:" + task.getExecutionId());
 				System.out.println("流程定义ID:" + task.getProcessDefinitionId());
+				System.out.println("########################################################");
 			}
 		}
 	}

@@ -127,4 +127,14 @@ public class ProcessVariablesTest {
 		// variableNames);//使用任务ID，获取多个流程变量的值，通过设置多个流程变量的名称存放到集合中，获取指定流程变量名称的多个流程变量的值，值存放到Map集合中
 
 	}
+	
+	/**完成我的任务*/
+	@Test
+	public void completeMyPersonalTask(){
+		//任务ID
+		String taskId = "802";
+		processEngine.getTaskService()//与正在执行的任务管理相关的Service
+					.complete(taskId);
+		System.out.println("完成任务：任务ID："+taskId);
+	}
 }

@@ -4,6 +4,7 @@ import java.io.InputStream;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
+import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.junit.Test;
@@ -41,5 +42,32 @@ ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
 						.startProcessInstanceByKey(processDefinitionKey);//使用流程定义的key启动流程实例，key对应helloworld.bpmn文件中id的属性值，使用key值启动，默认是按照最新版本的流程定义启动
 		System.out.println("流程实例ID:"+pi.getId());//流程实例ID    
 		System.out.println("流程定义ID:"+pi.getProcessDefinitionId());//流程定义ID  
+	}
+	
+	/**设置流程变量*/
+	@Test
+	public void setVariables(){
+		TaskService taskService = processEngine.getTaskService();
+		//任务ID
+		String taskId = "404";
+		/**一：设置流程变量，使用基本数据类型*/
+//		taskService.setVariableLocal(taskId, "请假天数", 5);//与任务ID绑定
+//		taskService.setVariable(taskId, "请假日期", new Date());
+//		taskService.setVariable(taskId, "请假原因", "回家探亲，一起吃个饭");
+		/**二：设置流程变量，使用javabean类型*/
+		/**
+		 * 当一个javabean（实现序列号）放置到流程变量中，要求javabean的属性不能再发生变化
+		 *    * 如果发生变化，再获取的时候，抛出异常
+		 *  
+		 * 解决方案：在Person对象中添加：
+		 * 		private static final long serialVersionUID = 6757393795687480331L;
+		 *      同时实现Serializable 
+		 * */
+		Person p = new Person();
+		p.setId(20);
+		p.setName("翠花");
+		taskService.setVariable(taskId, "人员信息(添加固定版本)", p);
+		
+		System.out.println("设置流程变量成功！");
 	}
 }

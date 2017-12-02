@@ -1,11 +1,13 @@
 package com.hungteshun.processVariables;
 
 import java.io.InputStream;
+import java.util.List;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.junit.Test;
@@ -136,5 +138,23 @@ public class ProcessVariablesTest {
 		processEngine.getTaskService()//与正在执行的任务管理相关的Service
 					.complete(taskId);
 		System.out.println("完成任务：任务ID："+taskId);
+	}
+	
+	/**通过流程变量的名称查询历史的流程变量实例*/
+	@Test
+	public void findHistoryProcessVariables(){
+		List<HistoricVariableInstance> list = processEngine.getHistoryService()//查询历史信息的service
+						.createHistoricVariableInstanceQuery()//创建一个历史的流程变量查询对象
+						.variableName("人员信息(添加固定版本)")
+						.list();
+		if(list!=null && list.size()>0){
+			for(HistoricVariableInstance hvi:list){
+				System.out.println("流程变量的id：" + hvi.getId());
+				System.out.println("流程变量所在的流程实例id：" + hvi.getProcessInstanceId());
+				System.out.println("流程变量的名称：" + hvi.getVariableName());
+				System.out.println("流程变量的类型：" + hvi.getVariableTypeName());
+				System.out.println("流程变量的值（或对象的引用）：" + hvi.getValue());
+			}
+		}
 	}
 }

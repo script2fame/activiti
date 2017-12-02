@@ -4,6 +4,7 @@ import java.io.InputStream;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
+import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -88,5 +89,42 @@ public class ProcessVariablesTest {
 		Person p = (Person) taskService.getVariable(taskId, "人员信息(添加固定版本)");
 		System.out.println("用户id：" + p.getId());
 		System.out.println("用户名称：" + p.getName());
+	}
+
+	/** 模拟设置和获取流程变量的场景 */
+	public void setAndGetVariables() {
+		/** 流程实例，执行对象（正在执行） */
+		// RuntimeService runtimeService = processEngine.getRuntimeService();
+		/** 任务（正在执行） */
+		// TaskService taskService = processEngine.getTaskService();
+
+		/** 设置流程变量 */
+		// runtimeService.setVariable(executionId, variableName,
+		// value)//表示使用执行对象ID，和流程变量的名称，设置流程变量的值（一次只能设置一个值）
+		// runtimeService.setVariables(executionId,
+		// variables)//表示使用执行对象ID，和Map集合设置流程变量，map集合的key就是流程变量的名称，map集合的value就是流程变量的值（一次设置多个值）
+
+		// taskService.setVariable(taskId, variableName,
+		// value)//表示使用任务ID，和流程变量的名称，设置流程变量的值（一次只能设置一个值）
+		// taskService.setVariables(taskId,
+		// variables)//表示使用任务ID，和Map集合设置流程变量，map集合的key就是流程变量的名称，map集合的value就是流程变量的值（一次设置多个值）
+
+		// runtimeService.startProcessInstanceByKey(processDefinitionKey,
+		// variables);//启动流程实例的同时，可以设置流程变量，用Map集合
+		// taskService.complete(taskId, variables)//完成任务的同时，设置流程变量，用Map集合
+
+		/** 获取流程变量 */
+		// runtimeService.getVariable(executionId,
+		// variableName);//使用执行对象ID和流程变量的名称，获取流程变量的值
+		// runtimeService.getVariables(executionId);//使用执行对象ID，获取所有的流程变量，将流程变量放置到Map集合中，map集合的key就是流程变量的名称，map集合的value就是流程变量的值
+		// runtimeService.getVariables(executionId,
+		// variableNames);//使用执行对象ID，获取多个流程变量的值，通过设置多个流程变量的名称存放到集合中，获取指定流程变量名称的多个流程变量的值，值存放到Map集合中
+
+		// taskService.getVariable(taskId,
+		// variableName);//使用任务ID和流程变量的名称，获取流程变量的值
+		// taskService.getVariables(taskId);//使用任务ID，获取所有的流程变量，将流程变量放置到Map集合中，map集合的key就是流程变量的名称，map集合的value就是流程变量的值
+		// taskService.getVariables(taskId,
+		// variableNames);//使用任务ID，获取多个流程变量的值，通过设置多个流程变量的名称存放到集合中，获取指定流程变量名称的多个流程变量的值，值存放到Map集合中
+
 	}
 }

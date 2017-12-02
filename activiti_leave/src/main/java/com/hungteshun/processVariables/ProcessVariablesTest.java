@@ -86,6 +86,7 @@ public class ProcessVariablesTest {
 		// System.out.println("请假原因："+resean);
 		/** 二：获取流程变量，使用javabean类型 */
 		Person p = (Person) taskService.getVariable(taskId, "人员信息(添加固定版本)");
-		System.out.println(p.getId() + "        " + p.getName());
+		System.out.println("用户id：" + p.getId());
+		System.out.println("用户名称：" + p.getName());
 	}
 }

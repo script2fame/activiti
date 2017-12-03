@@ -6,6 +6,7 @@ import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.junit.Test;
 
 /**
@@ -49,6 +50,24 @@ public class HistoryQueryTest {
 						+ hai.getActivityType() + "，活动开始时间：" + hai.getStartTime() + "，活动结束时间：" + hai.getEndTime()
 						+ "，活动持续时间：" + hai.getDurationInMillis() + "毫秒");
 				System.out.println("#####################");
+			}
+		}
+	}
+
+	/** 查询历史任务 */
+	@Test
+	public void findHistoryTask() {
+		String processInstanceId = "401";
+		List<HistoricTaskInstance> list = processEngine.getHistoryService()// 与历史数据（历史表）相关的Service
+				.createHistoricTaskInstanceQuery()// 创建历史任务实例查询
+				.processInstanceId(processInstanceId)//
+				.orderByHistoricTaskInstanceStartTime().asc().list();
+		if (list != null && list.size() > 0) {
+			for (HistoricTaskInstance hti : list) {
+				System.out.println("任务id：" + hti.getId() + "，任务名称：" + hti.getName() + "，任务id："
+						+ hti.getProcessInstanceId() + "，任务开始时间：" + hti.getStartTime() + "，任务结束时间" + hti.getEndTime()
+						+ "，任务持续时间" + hti.getDurationInMillis() / 1000 / 60 + "分");
+				System.out.println("################################");
 			}
 		}
 	}

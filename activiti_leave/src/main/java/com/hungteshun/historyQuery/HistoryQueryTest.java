@@ -34,5 +34,20 @@ public class HistoryQueryTest {
 
 	}
 	
-	
+	/**查询历史活动*/
+	@Test
+	public void findHistoryActiviti(){
+		String processInstanceId = "401";
+		List<HistoricActivityInstance> list = processEngine.getHistoryService()//
+						.createHistoricActivityInstanceQuery()//创建历史活动实例的查询
+						.processInstanceId(processInstanceId)//
+						.orderByHistoricActivityInstanceStartTime().asc()//
+						.list();
+		if(list!=null && list.size()>0){
+			for(HistoricActivityInstance hai:list){
+				System.out.println(hai.getId()+"   "+hai.getProcessInstanceId()+"   "+hai.getActivityType()+"  "+hai.getStartTime()+"   "+hai.getEndTime()+"   "+hai.getDurationInMillis());
+				System.out.println("#####################");
+			}
+		}
+	}
 }

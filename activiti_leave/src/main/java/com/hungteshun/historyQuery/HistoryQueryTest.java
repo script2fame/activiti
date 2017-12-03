@@ -1,7 +1,10 @@
 package com.hungteshun.historyQuery;
 
+import java.util.List;
+
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
+import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.junit.Test;
 
@@ -26,8 +29,10 @@ public class HistoryQueryTest {
 		System.out.println("流程实例id：" + hpi.getId());
 		System.out.println("流程定义id：" + hpi.getProcessDefinitionId());
 		System.out.println("流程开始时间：" + hpi.getStartTime());
-		System.out.println("流程结束时间：" + hpi.getId());
+		System.out.println("流程结束时间：" + hpi.getEndTime());
 		System.out.println("流程持续时间：" + hpi.getDurationInMillis() / 1000 / 60 + "分");
 
 	}
+	
+	
 }

@@ -65,7 +65,7 @@ public class HistoryQueryTest {
 						.list();
 		if(list!=null && list.size()>0){
 			for(HistoricTaskInstance hti:list){
-				System.out.println(hti.getId()+"    "+hti.getName()+"    "+hti.getProcessInstanceId()+"   "+hti.getStartTime()+"   "+hti.getEndTime()+"   "+hti.getDurationInMillis());
+				System.out.println("任务id："+hti.getId()+"，任务名称："+hti.getName()+"，任务id："+hti.getProcessInstanceId()+"，任务开始时间："+hti.getStartTime()+"，任务结束时间"+hti.getEndTime()+"，任务持续时间"+hti.getDurationInMillis()+"毫秒");
 				System.out.println("################################");
 			}
 		}

@@ -33,19 +33,21 @@ public class HistoryQueryTest {
 		System.out.println("流程持续时间：" + hpi.getDurationInMillis() / 1000 / 60 + "分");
 
 	}
-	
-	/**查询历史活动*/
+
+	/** 查询历史活动 */
 	@Test
-	public void findHistoryActiviti(){
+	public void findHistoryActiviti() {
 		String processInstanceId = "401";
 		List<HistoricActivityInstance> list = processEngine.getHistoryService()//
-						.createHistoricActivityInstanceQuery()//创建历史活动实例的查询
-						.processInstanceId(processInstanceId)//
-						.orderByHistoricActivityInstanceStartTime().asc()//
-						.list();
-		if(list!=null && list.size()>0){
-			for(HistoricActivityInstance hai:list){
-				System.out.println(hai.getId()+"   "+hai.getProcessInstanceId()+"   "+hai.getActivityType()+"  "+hai.getStartTime()+"   "+hai.getEndTime()+"   "+hai.getDurationInMillis());
+				.createHistoricActivityInstanceQuery()// 创建历史活动实例的查询
+				.processInstanceId(processInstanceId)//
+				.orderByHistoricActivityInstanceStartTime().asc()//
+				.list();
+		if (list != null && list.size() > 0) {
+			for (HistoricActivityInstance hai : list) {
+				System.out.println("活动id：" + hai.getId() + "，活动流程实例id：" + hai.getProcessInstanceId() + "，活动类型："
+						+ hai.getActivityType() + "，活动开始时间：" + hai.getStartTime() + "，活动结束时间：" + hai.getEndTime()
+						+ "，活动持续时间：" + hai.getDurationInMillis() + "毫秒");
 				System.out.println("#####################");
 			}
 		}

@@ -7,6 +7,7 @@ import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.history.HistoricVariableInstance;
 import org.junit.Test;
 
 /**
@@ -68,6 +69,22 @@ public class HistoryQueryTest {
 						+ hti.getProcessInstanceId() + "，任务开始时间：" + hti.getStartTime() + "，任务结束时间" + hti.getEndTime()
 						+ "，任务持续时间" + hti.getDurationInMillis() / 1000 / 60 + "分");
 				System.out.println("################################");
+			}
+		}
+	}
+	
+	/**查询历史流程变量*/
+	@Test
+	public void findHistoryProcessVariables(){
+		String processInstanceId = "401";
+		List<HistoricVariableInstance> list = processEngine.getHistoryService()//
+						.createHistoricVariableInstanceQuery()//创建一个历史的流程变量查询对象
+						.processInstanceId(processInstanceId)//
+						.list();
+		if(list!=null && list.size()>0){
+			for(HistoricVariableInstance hvi:list){
+				System.out.println(hvi.getId()+"   "+hvi.getProcessInstanceId()+"   "+hvi.getVariableName()+"   "+hvi.getVariableTypeName()+"    "+hvi.getValue());
+				System.out.println("###############################################");
 			}
 		}
 	}

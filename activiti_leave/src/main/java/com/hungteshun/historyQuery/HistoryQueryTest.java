@@ -7,7 +7,10 @@ import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.history.HistoricVariableInstance;
 import org.junit.Test;
+
+import com.hungteshun.processVariables.Person;
 
 /**
  * 历史记录相关操作
@@ -68,6 +71,26 @@ public class HistoryQueryTest {
 						+ hti.getProcessInstanceId() + "，任务开始时间：" + hti.getStartTime() + "，任务结束时间" + hti.getEndTime()
 						+ "，任务持续时间" + hti.getDurationInMillis() / 1000 / 60 + "分");
 				System.out.println("################################");
+			}
+		}
+	}
+
+	/** 查询历史流程变量 */
+	@Test
+	public void findHistoryProcessVariables() {
+		String processInstanceId = "401";
+		List<HistoricVariableInstance> list = processEngine.getHistoryService()//
+				.createHistoricVariableInstanceQuery()// 创建一个历史的流程变量查询对象
+				.processInstanceId(processInstanceId)//
+				.list();
+		if (list != null && list.size() > 0) {
+			for (HistoricVariableInstance hvi : list) {
+				System.out.println("流程变量id：" + hvi.getId() + "，流程变量所在的流程实例id：" + hvi.getProcessInstanceId() + "，流程变量名称："
+						+ hvi.getVariableName() + "，流程变量类型：" + hvi.getVariableTypeName() + "，流程变量的值（或引用）："
+						+ hvi.getValue());
+				Person p = (Person) hvi.getValue();
+				System.out.println("流程变量的值：" + p.getName());
+				System.out.println("###############################################");
 			}
 		}
 	}

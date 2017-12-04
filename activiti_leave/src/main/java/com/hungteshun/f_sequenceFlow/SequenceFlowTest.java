@@ -1,7 +1,9 @@
 package com.hungteshun.f_sequenceFlow;
 
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
@@ -49,7 +51,7 @@ public class SequenceFlowTest {
 																	// helloworld:1:4
 	}
 
-	/** 查询当前人的个人任务 */
+	/** 查询当前办理人的个人任务 */
 	@Test
 	public void findMyPersonalTask() {
 		String assignee = "赵六";
@@ -80,5 +82,18 @@ public class SequenceFlowTest {
 				System.out.println("########################################################");
 			}
 		}
+	}
+
+	/** 完成我的任务 */
+	@Test
+	public void completeMyPersonalTask() {
+		// 任务ID
+		String taskId = "603";
+		// 完成任务的同时，设置流程变量，使用流程变量用来指定完成任务后，下一个连线，对应sequenceFlow.bpmn文件中${message=='不重要'}
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("message", "重要");
+		processEngine.getTaskService()// 与正在执行的任务管理相关的Service
+				.complete(taskId, variables);
+		System.out.println("完成任务：任务ID：" + taskId);
 	}
 }

@@ -84,7 +84,7 @@ public class SequenceFlowTest {
 		}
 	}
 
-	/** 完成我的任务 */
+	/** 完成我的任务，同时设置流程变量，在连线中判断流程变量的值，程序走结果为true的那一条连线 */
 	@Test
 	public void completeMyPersonalTask() {
 		// 任务ID

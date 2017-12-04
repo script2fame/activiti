@@ -94,6 +94,7 @@ public class SequenceFlowTest {
 		variables.put("message", "重要");
 		processEngine.getTaskService()// 与正在执行的任务管理相关的Service
 				.complete(taskId, variables);
-		System.out.println("完成任务：任务ID：" + taskId);
+		System.out.println("完成任务，任务ID：" + taskId);
+		System.out.println("流程变量名称为：message" + "，流程变量的值为：重要");
 	}
 }

@@ -1,7 +1,9 @@
 package com.hungteshun.f_exclusiveGateWay;
 
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
@@ -78,6 +80,19 @@ public class ExclusiveGateWayTest {
 				System.out.println("########################################################");
 			}
 		}
+	}
+
+	/** 完成我的任务 */
+	@Test
+	public void completeMyPersonalTask() {
+		// 任务ID
+		String taskId = "604";
+		// 完成任务的同时，设置流程变量，使用流程变量来指定完成任务后，应该走哪条连线，对应exclusiveGateWay.bpmn文件中${money>1000}
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("money", 2000);
+		processEngine.getTaskService()// 与正在执行的任务管理相关的Service
+				.complete(taskId, variables);
+		System.out.println("完成任务：任务ID：" + taskId);
 	}
 
 }

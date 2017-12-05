@@ -21,7 +21,9 @@ public class ParallelGateWayTest {
 	/** 部署流程定义（从inputStream） */
 	@Test
 	public void deploymentProcessDefinition_inputStream() {
+		// 注意这里的bpmn文件的路径，不是放在resource目录下的，所以要修改buildPath信息
 		InputStream inputStreamBpmn = this.getClass().getResourceAsStream("parallelGateWay.bpmn");
+		// 注意这里的png文件的路径，不是放在resource目录下的，所以要修改buildPath信息
 		InputStream inputStreamPng = this.getClass().getResourceAsStream("parallelGateWay.png");
 		Deployment deployment = processEngine.getRepositoryService()// 与流程定义和部署对象相关的Service
 				.createDeployment()// 创建一个部署对象

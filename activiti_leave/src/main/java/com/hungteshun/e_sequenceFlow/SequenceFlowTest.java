@@ -1,4 +1,4 @@
-package com.hungteshun.f_sequenceFlow;
+package com.hungteshun.e_sequenceFlow;
 
 import java.io.InputStream;
 import java.util.HashMap;

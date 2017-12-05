@@ -1,4 +1,4 @@
-package com.hungteshun.historyQuery;
+package com.hungteshun.d_historyQuery;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.history.HistoricVariableInstance;
 import org.junit.Test;
 
-import com.hungteshun.processVariables.Person;
+import com.hungteshun.c_processVariables.Person;
 
 /**
  * 历史记录相关操作

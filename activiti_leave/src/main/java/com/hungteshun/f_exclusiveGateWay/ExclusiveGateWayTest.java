@@ -95,4 +95,5 @@ public class ExclusiveGateWayTest {
 		System.out.println("完成任务：任务ID：" + taskId);
 	}
 
+	
 }

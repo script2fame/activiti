@@ -56,8 +56,11 @@ public class StartTest {
 					.createHistoricProcessInstanceQuery()//
 					.processInstanceId(pi.getId())// 使用流程实例ID查询
 					.singleResult();
-			System.out.println(hpi.getId() + "    " + hpi.getStartTime() + "   " + hpi.getEndTime() + "   "
-					+ hpi.getDurationInMillis());
+			System.out.println("流程实例id：" + hpi.getId());
+			System.out.println("流程实例开始时间：" + hpi.getStartTime());
+			System.out.println("流程实例结束时间：" + hpi.getEndTime());
+			System.out.println("流程实例持续时间：" + hpi.getDurationInMillis() + "毫秒");
+
 		}
 	}
 }

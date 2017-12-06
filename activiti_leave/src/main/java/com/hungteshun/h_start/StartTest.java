@@ -8,7 +8,7 @@ import org.activiti.engine.repository.Deployment;
 import org.junit.Test;
 
 /**
- * 开始-结束活动节点判断任务是否结束
+ * 判断任务是否结束
  * 
  * @author hungteshun
  *

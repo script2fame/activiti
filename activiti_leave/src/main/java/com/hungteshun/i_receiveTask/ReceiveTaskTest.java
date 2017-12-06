@@ -17,7 +17,7 @@ public class ReceiveTaskTest {
 
 	ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
 
-	/** 部署流程定义（从inputStream） */
+	/** 以inputStream方式部署流程定义 */
 	@Test
 	public void deploymentProcessDefinition_inputStream() {
 		InputStream inputStreamBpmn = this.getClass().getResourceAsStream("receiveTask.bpmn");
@@ -31,4 +31,5 @@ public class ReceiveTaskTest {
 		System.out.println("部署ID：" + deployment.getId());//
 		System.out.println("部署名称：" + deployment.getName());//
 	}
+
 }

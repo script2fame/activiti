@@ -31,7 +31,7 @@ public class TaskTest {
 		System.out.println("部署名称：" + deployment.getName());
 	}
 
-	/** 启动流程实例 */
+	/** 启动流程实例--在任务节点固定审批人 */
 	@Test
 	public void startProcessInstance() {
 		// 流程定义的key

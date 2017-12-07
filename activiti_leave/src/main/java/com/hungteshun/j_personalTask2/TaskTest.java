@@ -11,7 +11,7 @@ import org.activiti.engine.task.Task;
 import org.junit.Test;
 
 /**
- * 个人任务相关操作2--通过TaskListener接口实现类指定下一个任务的办理人
+ * 个人任务相关操作2--通过TaskListener接口实现类指定下一个任务的办理人与转交个人任务给其他人
  * 
  * @author hungteshun
  *

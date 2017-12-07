@@ -77,4 +77,25 @@ public class TaskTest {
 			}
 		}
 	}
+
+	/** 完成我的任务 */
+	@Test
+	public void completeMyPersonalTask() {
+		// 任务ID
+		String taskId = "804";
+		processEngine.getTaskService()// 与正在执行的任务管理相关的Service
+				.complete(taskId);
+		System.out.println("完成任务：任务ID：" + taskId);
+	}
+
+	// 可以分配个人任务从一个人到另一个人（认领任务）
+	@Test
+	public void setAssigneeTask() {
+		// 任务ID
+		String taskId = "804";
+		// 指定的办理人
+		String userId = "马化腾";
+		processEngine.getTaskService()//
+				.setAssignee(taskId, userId);
+	}
 }

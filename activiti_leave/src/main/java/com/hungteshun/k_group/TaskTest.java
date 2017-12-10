@@ -193,4 +193,16 @@ public class TaskTest {
 		processEngine.getTaskService()//
 					.addCandidateUser(taskId, userId);
 	}
+	
+	
+	/**从组任务中删除成员*/
+	@Test
+	public void deleteGroupUser(){
+		//任务ID
+		String taskId = "6204";
+		//成员办理人
+		String userId = "小B";
+		processEngine.getTaskService()//
+					.deleteCandidateUser(taskId, userId);
+	}
 }

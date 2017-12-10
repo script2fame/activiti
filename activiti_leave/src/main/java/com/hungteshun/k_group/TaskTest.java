@@ -106,4 +106,16 @@ public class TaskTest {
 			}
 		}
 	}
+	
+	/**拾取任务，将组任务分给个人任务，指定任务的办理人字段*/
+	@Test
+	public void claim(){
+		//将组任务分配给个人任务
+		//任务ID
+		String taskId = "6905";
+		//分配的个人任务（可以是组任务中的成员，也可以是非组任务的成员）
+		String userId = "大大";
+		processEngine.getTaskService()//
+					.claim(taskId, userId);
+	}
 }

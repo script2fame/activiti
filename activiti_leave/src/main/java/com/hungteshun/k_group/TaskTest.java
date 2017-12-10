@@ -107,6 +107,22 @@ public class TaskTest {
 		}
 	}
 	
+	
+	/**查询历史任务的办理人表*/
+	@Test
+	public void findHistoryPersonTask(){
+		//流程实例ID
+		String processInstanceId = "6201";
+		List<HistoricIdentityLink> list = processEngine.getHistoryService()//
+						.getHistoricIdentityLinksForProcessInstance(processInstanceId);
+		if(list!=null && list.size()>0){
+			for(HistoricIdentityLink identityLink:list){
+				System.out.println(identityLink.getTaskId()+"   "+identityLink.getType()+"   "+identityLink.getProcessInstanceId()+"   "+identityLink.getUserId());
+			}
+		}
+	}
+	
+	
 	/**拾取任务，将组任务分给个人任务，指定任务的办理人字段*/
 	@Test
 	public void claim(){
@@ -118,4 +134,45 @@ public class TaskTest {
 		processEngine.getTaskService()//
 					.claim(taskId, userId);
 	}
+	
+	/**查询当前人的个人任务*/
+	@Test
+	public void findMyPersonalTask(){
+		String assignee = "小A";
+		List<Task> list = processEngine.getTaskService()//与正在执行的任务管理相关的Service
+						.createTaskQuery()//创建任务查询对象
+						/**查询条件（where部分）*/
+						.taskAssignee(assignee)//指定个人任务查询，指定办理人
+//						.taskCandidateUser(candidateUser)//组任务的办理人查询
+						/**排序*/
+						.orderByTaskCreateTime().asc()//使用创建时间的升序排列
+						/**返回结果集*/
+						.list();//返回列表
+		if(list!=null && list.size()>0){
+			for(Task task:list){
+				System.out.println("任务ID:"+task.getId());
+				System.out.println("任务名称:"+task.getName());
+				System.out.println("任务的创建时间:"+task.getCreateTime());
+				System.out.println("任务的办理人:"+task.getAssignee());
+				System.out.println("流程实例ID："+task.getProcessInstanceId());
+				System.out.println("执行对象ID:"+task.getExecutionId());
+				System.out.println("流程定义ID:"+task.getProcessDefinitionId());
+				System.out.println("########################################################");
+			}
+		}
+	}
+	
+	
+	/**完成我的任务*/
+	@Test
+	public void completeMyPersonalTask(){
+		//任务ID
+		String taskId = "6905";
+		processEngine.getTaskService()//与正在执行的任务管理相关的Service
+					.complete(taskId);
+		System.out.println("完成任务：任务ID："+taskId);
+	}
+	
+	
+	
 }

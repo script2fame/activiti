@@ -92,4 +92,18 @@ public class TaskTest {
 			}
 		}
 	}
+	
+	/**查询正在执行的任务办理人表*/
+	@Test
+	public void findRunPersonTask(){
+		//任务ID
+		String taskId = "6204";
+		List<IdentityLink> list = processEngine.getTaskService()//
+					.getIdentityLinksForTask(taskId);
+		if(list!=null && list.size()>0){
+			for(IdentityLink identityLink:list){
+				System.out.println(identityLink.getTaskId()+"   "+identityLink.getType()+"   "+identityLink.getProcessInstanceId()+"   "+identityLink.getUserId());
+			}
+		}
+	}
 }

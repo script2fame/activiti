@@ -174,5 +174,35 @@ public class TaskTest {
 	}
 	
 	
+	/**将个人任务回退到组任务，前提，之前一定是个组任务*/
+	@Test
+	public void setAssigee(){
+		//任务ID
+		String taskId = "6204";
+		processEngine.getTaskService()//
+					.setAssignee(taskId, null);
+	}
 	
+	/**向组任务中添加成员*/
+	@Test
+	public void addGroupUser(){
+		//任务ID
+		String taskId = "6204";
+		//成员办理人
+		String userId = "大H";
+		processEngine.getTaskService()//
+					.addCandidateUser(taskId, userId);
+	}
+	
+	
+	/**从组任务中删除成员*/
+	@Test
+	public void deleteGroupUser(){
+		//任务ID
+		String taskId = "6204";
+		//成员办理人
+		String userId = "小B";
+		processEngine.getTaskService()//
+					.deleteCandidateUser(taskId, userId);
+	}
 }

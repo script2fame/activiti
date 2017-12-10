@@ -174,5 +174,14 @@ public class TaskTest {
 	}
 	
 	
+	/**将个人任务回退到组任务，前提，之前一定是个组任务*/
+	@Test
+	public void setAssigee(){
+		//任务ID
+		String taskId = "6204";
+		processEngine.getTaskService()//
+					.setAssignee(taskId, null);
+	}
+	
 	
 }

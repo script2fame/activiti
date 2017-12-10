@@ -40,6 +40,19 @@ public class TaskTest {
 	}
 	
 	
+	/**启动流程实例--流程图中强制设定审批人*/
+	//@Test
+	//public void startProcessInstance(){
+	//	//流程定义的key
+	//	String processDefinitionKey = "task";
+	//	/**启动流程实例的同时，设置流程变量，使用流程变量用来指定任务的办理人，对应task.pbmn文件中#{userIDs}*/
+	//	ProcessInstance pi = processEngine.getRuntimeService()//与正在执行的流程实例和执行对象相关的Service
+	//					.startProcessInstanceByKey(processDefinitionKey);//使用流程定义的key启动流程实例
+	//	System.out.println("流程实例ID:"+pi.getId());//流程实例ID  
+	//	System.out.println("流程定义ID:"+pi.getProcessDefinitionId());//流程定义ID   
+	//}
+	
+	
 	/**启动流程实例*/
 	@Test
 	public void startProcessInstance(){
@@ -49,8 +62,10 @@ public class TaskTest {
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("userIDs", "大大,中中,小小");
 		ProcessInstance pi = processEngine.getRuntimeService()//与正在执行的流程实例和执行对象相关的Service
-						.startProcessInstanceByKey(processDefinitionKey,variables);//使用流程定义的key启动流程实例，key对应helloworld.bpmn文件中id的属性值，使用key值启动，默认是按照最新版本的流程定义启动
+						.startProcessInstanceByKey(processDefinitionKey,variables);
 		System.out.println("流程实例ID:"+pi.getId());//流程实例ID  
 		System.out.println("流程定义ID:"+pi.getProcessDefinitionId());//流程定义ID   
 	}
+	
+	
 }

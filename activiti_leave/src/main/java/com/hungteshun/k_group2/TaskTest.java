@@ -88,21 +88,31 @@ public class TaskTest {
 			}
 		}
 	}
-	
-	
-	/**查询历史任务的办理人表*/
+
+	/** 查询历史任务的办理人表 */
 	@Test
-	public void findHistoryPersonTask(){
-		//流程实例ID
+	public void findHistoryPersonTask() {
+		// 流程实例ID
 		String processInstanceId = "6201";
 		List<HistoricIdentityLink> list = processEngine.getHistoryService()//
-						.getHistoricIdentityLinksForProcessInstance(processInstanceId);
-		if(list!=null && list.size()>0){
-			for(HistoricIdentityLink identityLink:list){
-				System.out.println(identityLink.getTaskId()+"   "+identityLink.getType()+"   "+identityLink.getProcessInstanceId()+"   "+identityLink.getUserId());
+				.getHistoricIdentityLinksForProcessInstance(processInstanceId);
+		if (list != null && list.size() > 0) {
+			for (HistoricIdentityLink identityLink : list) {
+				System.out.println(identityLink.getTaskId() + "   " + identityLink.getType() + "   "
+						+ identityLink.getProcessInstanceId() + "   " + identityLink.getUserId());
 			}
 		}
 	}
-	
-	
+
+	/** 拾取任务，将组任务分给个人任务，指定任务的办理人字段 */
+	@Test
+	public void claim() {
+		// 将组任务分配给个人任务
+		// 任务ID
+		String taskId = "7204";
+		// 分配的个人任务（可以是组任务中的成员，也可以是非组任务的成员）
+		String userId = "易中天";
+		processEngine.getTaskService()//
+				.claim(taskId, userId);
+	}
 }

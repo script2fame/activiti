@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
+import org.activiti.engine.history.HistoricIdentityLink;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.IdentityLink;
 import org.activiti.engine.task.Task;
 import org.junit.Test;
 
@@ -71,4 +73,36 @@ public class TaskTest {
 			}
 		}
 	}
+
+	/** 查询正在执行的任务办理人表 */
+	@Test
+	public void findRunPersonTask() {
+		// 任务ID
+		String taskId = "6204";
+		List<IdentityLink> list = processEngine.getTaskService()//
+				.getIdentityLinksForTask(taskId);
+		if (list != null && list.size() > 0) {
+			for (IdentityLink identityLink : list) {
+				System.out.println(identityLink.getTaskId() + "   " + identityLink.getType() + "   "
+						+ identityLink.getProcessInstanceId() + "   " + identityLink.getUserId());
+			}
+		}
+	}
+	
+	
+	/**查询历史任务的办理人表*/
+	@Test
+	public void findHistoryPersonTask(){
+		//流程实例ID
+		String processInstanceId = "6201";
+		List<HistoricIdentityLink> list = processEngine.getHistoryService()//
+						.getHistoricIdentityLinksForProcessInstance(processInstanceId);
+		if(list!=null && list.size()>0){
+			for(HistoricIdentityLink identityLink:list){
+				System.out.println(identityLink.getTaskId()+"   "+identityLink.getType()+"   "+identityLink.getProcessInstanceId()+"   "+identityLink.getUserId());
+			}
+		}
+	}
+	
+	
 }

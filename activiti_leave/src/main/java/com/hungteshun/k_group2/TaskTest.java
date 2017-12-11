@@ -89,4 +89,20 @@ public class TaskTest {
 		}
 	}
 	
+	
+	/**查询历史任务的办理人表*/
+	@Test
+	public void findHistoryPersonTask(){
+		//流程实例ID
+		String processInstanceId = "6201";
+		List<HistoricIdentityLink> list = processEngine.getHistoryService()//
+						.getHistoricIdentityLinksForProcessInstance(processInstanceId);
+		if(list!=null && list.size()>0){
+			for(HistoricIdentityLink identityLink:list){
+				System.out.println(identityLink.getTaskId()+"   "+identityLink.getType()+"   "+identityLink.getProcessInstanceId()+"   "+identityLink.getUserId());
+			}
+		}
+	}
+	
+	
 }

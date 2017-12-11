@@ -4,7 +4,7 @@
     <startEvent id="startevent1" name="Start"></startEvent>
     <userTask id="usertask1" name="审批">
       <extensionElements>
-        <activiti:taskListener event="create" class="cn.itcast.l_group02.TaskListenerImpl"></activiti:taskListener>
+        <activiti:taskListener event="create" class="com.hungteshun.k_group2.TaskListenerImpl"></activiti:taskListener>
       </extensionElements>
     </userTask>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>

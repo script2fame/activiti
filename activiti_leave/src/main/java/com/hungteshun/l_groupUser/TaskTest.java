@@ -171,4 +171,35 @@ public class TaskTest {
 				.setAssignee(taskId, null);
 	}
 
+	/** 向组任务中添加成员 */
+	@Test
+	public void addGroupUser() {
+		// 任务ID
+		String taskId = "6204";
+		// 成员办理人
+		String userId = "大H";
+		processEngine.getTaskService()//
+				.addCandidateUser(taskId, userId);
+	}
+
+	/** 从组任务中删除成员 */
+	@Test
+	public void deleteGroupUser() {
+		// 任务ID
+		String taskId = "6204";
+		// 成员办理人
+		String userId = "大H";
+		processEngine.getTaskService()//
+				.deleteCandidateUser(taskId, userId);
+	}
+
+	/** 完成我的任务 */
+	@Test
+	public void completeMyPersonalTask() {
+		// 任务ID
+		String taskId = "7504";
+		processEngine.getTaskService()// 与正在执行的任务管理相关的Service
+				.complete(taskId);
+		System.out.println("完成任务：任务ID：" + taskId);
+	}
 }

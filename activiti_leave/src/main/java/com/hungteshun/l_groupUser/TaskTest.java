@@ -1,14 +1,18 @@
 package com.hungteshun.l_groupUser;
 
 import java.io.InputStream;
+import java.util.List;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
+import org.activiti.engine.history.HistoricIdentityLink;
 import org.activiti.engine.impl.persistence.entity.GroupEntity;
 import org.activiti.engine.impl.persistence.entity.UserEntity;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.IdentityLink;
+import org.activiti.engine.task.Task;
 import org.junit.Test;
 
 /**
@@ -60,4 +64,62 @@ public class TaskTest {
 		System.out.println("流程实例ID:" + pi.getId());// 流程实例ID
 		System.out.println("流程定义ID:" + pi.getProcessDefinitionId());// 流程定义ID
 	}
+
+	/** 查询当前人的组任务 */
+	@Test
+	public void findMyGroupTask() {
+		// 因为.bpmn文件中指定了角色组为部门经理，所以李四可以查看组任务
+		String candidateUser = "李四";
+		List<Task> list = processEngine.getTaskService()// 与正在执行的任务管理相关的Service
+				.createTaskQuery()// 创建任务查询对象
+				/** 查询条件（where部分） */
+				.taskCandidateUser(candidateUser)// 组任务的办理人查询
+				/** 排序 */
+				.orderByTaskCreateTime().asc()// 使用创建时间的升序排列
+				/** 返回结果集 */
+				.list();// 返回列表
+		if (list != null && list.size() > 0) {
+			for (Task task : list) {
+				System.out.println("任务ID:" + task.getId());
+				System.out.println("任务名称:" + task.getName());
+				System.out.println("任务的创建时间:" + task.getCreateTime());
+				System.out.println("任务的办理人:" + task.getAssignee());
+				System.out.println("流程实例ID：" + task.getProcessInstanceId());
+				System.out.println("执行对象ID:" + task.getExecutionId());
+				System.out.println("流程定义ID:" + task.getProcessDefinitionId());
+				System.out.println("########################################################");
+			}
+		}
+	}
+
+	/** 查询正在执行的任务办理人表 */
+	@Test
+	public void findRunPersonTask() {
+		// 任务ID
+		String taskId = "6204";
+		List<IdentityLink> list = processEngine.getTaskService()//
+				.getIdentityLinksForTask(taskId);
+		if (list != null && list.size() > 0) {
+			for (IdentityLink identityLink : list) {
+				System.out.println(identityLink.getTaskId() + "   " + identityLink.getType() + "   "
+						+ identityLink.getProcessInstanceId() + "   " + identityLink.getUserId());
+			}
+		}
+	}
+
+	/** 查询历史任务的办理人表 */
+	@Test
+	public void findHistoryPersonTask() {
+		// 流程实例ID
+		String processInstanceId = "6201";
+		List<HistoricIdentityLink> list = processEngine.getHistoryService()//
+				.getHistoricIdentityLinksForProcessInstance(processInstanceId);
+		if (list != null && list.size() > 0) {
+			for (HistoricIdentityLink identityLink : list) {
+				System.out.println(identityLink.getTaskId() + "   " + identityLink.getType() + "   "
+						+ identityLink.getProcessInstanceId() + "   " + identityLink.getUserId());
+			}
+		}
+	}
+
 }

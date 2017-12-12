@@ -171,4 +171,15 @@ public class TaskTest {
 				.setAssignee(taskId, null);
 	}
 
+	/** 向组任务中添加成员 */
+	@Test
+	public void addGroupUser() {
+		// 任务ID
+		String taskId = "6204";
+		// 成员办理人
+		String userId = "大H";
+		processEngine.getTaskService()//
+				.addCandidateUser(taskId, userId);
+	}
+
 }

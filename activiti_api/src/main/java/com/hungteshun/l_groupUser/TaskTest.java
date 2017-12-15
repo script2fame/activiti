@@ -16,7 +16,7 @@ import org.activiti.engine.task.Task;
 import org.junit.Test;
 
 /**
- * 用户角色组
+ * 用户角色组ap相关操作
  * 
  * @author hungteshun
  *

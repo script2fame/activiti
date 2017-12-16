@@ -1,7 +1,13 @@
 package com.hungteshun.web.action;
 
+import java.util.List;
+
+import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.ProcessDefinition;
+
 import com.hungteshun.service.ILeaveBillService;
 import com.hungteshun.service.IWorkflowService;
+import com.hungteshun.utils.ValueContext;
 import com.hungteshun.web.form.WorkflowBean;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
@@ -35,4 +41,14 @@ public class WorkflowAction extends ActionSupport implements ModelDriven<Workflo
 		this.workflowService = workflowService;
 	}
 
+	public String deployHome(){
+		//1:查询部署对象信息，对应表（act_re_deployment）
+		List<Deployment> depList = workflowService.findDeploymentList();
+		//2:查询流程定义的信息，对应表（act_re_procdef）
+		List<ProcessDefinition> pdList = workflowService.findProcessDefinitionList();
+		//放置到上下文对象中
+		ValueContext.putValueContext("depList", depList);
+		ValueContext.putValueContext("pdList", pdList);
+		return "deployHome";
+	}
 }

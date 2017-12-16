@@ -7,6 +7,7 @@ import com.opensymphony.xwork2.interceptor.Interceptor;
 
 /**
  * 登录验证拦截器
+ * @author hungteshun
  *
  */
 @SuppressWarnings("serial")

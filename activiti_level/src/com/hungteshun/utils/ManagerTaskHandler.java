@@ -14,6 +14,7 @@ public class ManagerTaskHandler implements TaskListener {
 
 	@Override
 	public void notify(DelegateTask delegateTask) {
+		
 	}
 
 }

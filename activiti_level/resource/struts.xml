@@ -29,7 +29,18 @@
 			</result>
 		</global-results>
 
+		<action name="loginAction_*" class="loginAction" method="{1}">
+			<result name="success">WEB-INF/views/main.jsp</result>
+			<result name="top">WEB-INF/views/top.jsp</result>
+			<result name="left">WEB-INF/views/left.jsp</result>
+			<result name="welcome">WEB-INF/views/welcome.jsp</result>
+		</action>
 
+		<action name="leaveBillAction_*" class="leaveBillAction" method="{1}">
+		</action>
+
+		<action name="workflowAction_*" class="workflowAction" method="{1}">
+		</action>
 
 	</package>
 </struts>

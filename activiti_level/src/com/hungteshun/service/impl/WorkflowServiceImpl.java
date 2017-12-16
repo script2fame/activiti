@@ -1,5 +1,8 @@
 package com.hungteshun.service.impl;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
+import java.util.zip.ZipInputStream;
 
 import org.activiti.engine.FormService;
 import org.activiti.engine.HistoryService;
@@ -74,6 +77,21 @@ public class WorkflowServiceImpl implements IWorkflowService {
 							.list();
 		return list;
 	}
-	
+
+	//部署流程
+	@Override
+	public void saveNewDeploye(File file, String filename) {
+		try {
+			//2：将File类型的文件转化成ZipInputStream流
+			ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(file));
+			repositoryService.createDeployment()//创建部署对象
+							.name(filename)//添加部署名称
+							.addZipInputStream(zipInputStream)//
+							.deploy();//完成部署
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	
 }

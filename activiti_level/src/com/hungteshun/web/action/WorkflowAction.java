@@ -1,5 +1,6 @@
 package com.hungteshun.web.action;
 
+import java.io.File;
 import java.util.List;
 
 import org.activiti.engine.repository.Deployment;
@@ -41,6 +42,10 @@ public class WorkflowAction extends ActionSupport implements ModelDriven<Workflo
 		this.workflowService = workflowService;
 	}
 
+	/**
+	 * 部署流程对象
+	 * @return
+	 */
 	public String deployHome(){
 		//1:查询部署对象信息，对应表（act_re_deployment）
 		List<Deployment> depList = workflowService.findDeploymentList();
@@ -50,5 +55,20 @@ public class WorkflowAction extends ActionSupport implements ModelDriven<Workflo
 		ValueContext.putValueContext("depList", depList);
 		ValueContext.putValueContext("pdList", pdList);
 		return "deployHome";
+	}
+	
+	/**
+	 * 发布流程
+	 * @return
+	 */
+	public String newdeploy(){
+		//获取页面传递的值
+		//1：获取页面上传递的zip格式的文件，格式是File类型
+		File file = workflowBean.getFile();
+		//文件名称
+		String filename = workflowBean.getFilename();
+		//完成部署
+		workflowService.saveNewDeploye(file,filename);
+		return "list";
 	}
 }

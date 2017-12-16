@@ -71,4 +71,10 @@ public class LoginAction extends ActionSupport implements ModelDriven<Employee> 
 		return "welcome";
 	}
 
+	/**退出系统*/
+	public String logout(){
+		//清空Session
+		SessionContext.setUser(null);
+		return "login";
+	}
 }

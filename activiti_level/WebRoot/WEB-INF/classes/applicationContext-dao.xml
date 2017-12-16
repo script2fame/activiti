@@ -13,4 +13,9 @@
 		                    http://www.springframework.org/schema/aop 
 		                    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"> 
 	
+	<bean id="employeeDao" class="com.hungteshun.dao.impl.EmployeeDaoImpl" parent="baseDao">
+	</bean>
+	
+	<bean id="leaveBillDao" class="com.hungteshun.dao.impl.LeaveBillDaoImpl" parent="baseDao">
+	</bean>
 </beans>

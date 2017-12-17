@@ -6,6 +6,10 @@ import java.util.List;
 
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.task.Task;
+
+import com.hungteshun.web.form.WorkflowBean;
+
 
 
 public interface IWorkflowService {
@@ -24,6 +28,12 @@ public interface IWorkflowService {
 
 	//删除部署信息
 	void deleteProcessDefinitionByDeploymentId(String deploymentId);
+
+	//查看当前用户的任务信息
+	List<Task> findTaskListByName(String name);
+
+	//启动流程
+	void saveStartProcess(WorkflowBean workflowBean);
 
 
 }

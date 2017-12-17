@@ -37,6 +37,11 @@
 		</action>
 
 		<action name="leaveBillAction_*" class="leaveBillAction" method="{1}">
+			<result name="home">WEB-INF/views/leaveBill/list.jsp</result>
+			<result name="input">WEB-INF/views/leaveBill/input.jsp</result>
+			<result name="save" type="redirectAction">
+        		<param name="actionName">leaveBillAction_home.action</param>
+        	</result>
 		</action>
 
 		<action name="workflowAction_*" class="workflowAction" method="{1}">

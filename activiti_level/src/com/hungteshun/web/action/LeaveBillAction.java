@@ -70,4 +70,17 @@ public class LeaveBillAction extends ActionSupport implements ModelDriven<LeaveB
 		leaveBillService.saveLeaveBill(leaveBill);
 		return "save";
 	}
+	
+	
+	/**
+	 * 删除，请假申请
+	 * 
+	 * */
+	public String delete(){
+		//1：获取请假单ID
+		Long id = leaveBill.getId();
+		//执行删除
+		leaveBillService.deleteLeaveBillById(id);
+		return "save";
+	}
 }

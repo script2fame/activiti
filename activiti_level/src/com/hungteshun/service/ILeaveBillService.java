@@ -15,5 +15,8 @@ public interface ILeaveBillService {
 	//保存/更新，请假申请
 	void saveLeaveBill(LeaveBill leaveBill);
 
+	//删除请假信息
+	void deleteLeaveBillById(Long id);
+
 
 }

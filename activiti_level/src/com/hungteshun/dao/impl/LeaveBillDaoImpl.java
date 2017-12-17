@@ -26,22 +26,31 @@ public class LeaveBillDaoImpl extends HibernateDaoSupport implements ILeaveBillD
 		return list;
 	}
 
-	//通过id查找请假单信息
+	// 通过id查找请假单信息
 	@Override
 	public LeaveBill findLeaveBillById(Long id) {
 		return this.getHibernateTemplate().get(LeaveBill.class, id);
 	}
 
-	//保存请假信息
+	// 保存请假信息
 	@Override
 	public void saveLeaveBill(LeaveBill leaveBill) {
 		this.getHibernateTemplate().save(leaveBill);
 	}
 
-	//更新请假信息
+	// 更新请假信息
 	@Override
 	public void updateLeaveBill(LeaveBill leaveBill) {
 		this.getHibernateTemplate().update(leaveBill);
+	}
+
+	// 删除请假信息
+	@Override
+	public void deleteLeaveBillById(Long id) {
+		// 1、使用请假单ID，查询请假单信息，获取对象LeaveBill
+		LeaveBill bill = this.findLeaveBillById(id);
+		// 2、执行删除
+		this.getHibernateTemplate().delete(bill);
 	}
 
 }

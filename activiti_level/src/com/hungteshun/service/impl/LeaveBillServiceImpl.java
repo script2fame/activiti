@@ -52,4 +52,10 @@ public class LeaveBillServiceImpl implements ILeaveBillService {
 					leaveBillDao.updateLeaveBill(leaveBill);
 				}
 	}
+
+	//删除请假信息
+	@Override
+	public void deleteLeaveBillById(Long id) {
+		leaveBillDao.deleteLeaveBillById(id);
+	}
 }

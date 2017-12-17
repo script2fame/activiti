@@ -18,6 +18,9 @@ public interface ILeaveBillDao {
 	//更新请假信息
 	void updateLeaveBill(LeaveBill leaveBill);
 
+	//删除请假信息
+	void deleteLeaveBillById(Long id);
+
 
 
 }

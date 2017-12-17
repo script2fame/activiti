@@ -12,5 +12,8 @@ public interface ILeaveBillService {
 	//通过id查找请假单信息
 	LeaveBill findLeaveBillById(Long id);
 
+	//保存/更新，请假申请
+	void saveLeaveBill(LeaveBill leaveBill);
+
 
 }

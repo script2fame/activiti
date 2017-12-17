@@ -32,4 +32,16 @@ public class LeaveBillDaoImpl extends HibernateDaoSupport implements ILeaveBillD
 		return this.getHibernateTemplate().get(LeaveBill.class, id);
 	}
 
+	//保存请假信息
+	@Override
+	public void saveLeaveBill(LeaveBill leaveBill) {
+		this.getHibernateTemplate().save(leaveBill);
+	}
+
+	//更新请假信息
+	@Override
+	public void updateLeaveBill(LeaveBill leaveBill) {
+		this.getHibernateTemplate().update(leaveBill);
+	}
+
 }

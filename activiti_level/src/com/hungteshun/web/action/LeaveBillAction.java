@@ -59,4 +59,15 @@ public class LeaveBillAction extends ActionSupport implements ModelDriven<LeaveB
 		//新增
 		return "input";
 	}
+	
+	
+	/**
+	 * 保存/更新，请假申请
+	 * 
+	 * */
+	public String save() {
+		//执行保存
+		leaveBillService.saveLeaveBill(leaveBill);
+		return "save";
+	}
 }

@@ -100,5 +100,10 @@ public class WorkflowServiceImpl implements IWorkflowService {
 		return repositoryService.getResourceAsStream(deploymentId, imageName);
 	}
 
-	
+	//删除部署信息
+	@Override
+	public void deleteProcessDefinitionByDeploymentId(String deploymentId) {
+		repositoryService.deleteDeployment(deploymentId,true);
+	}
+
 }

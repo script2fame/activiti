@@ -22,5 +22,8 @@ public interface IWorkflowService {
 	//查看流程图
 	InputStream findImageInputStream(String deploymentId, String imageName);
 
+	//删除部署信息
+	void deleteProcessDefinitionByDeploymentId(String deploymentId);
+
 
 }

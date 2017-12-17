@@ -99,4 +99,16 @@ public class WorkflowAction extends ActionSupport implements ModelDriven<Workflo
 		//将图写到页面上，用输出流写
 		return null;
 	}
+	
+	
+	/**
+	 * 删除部署信息
+	 */
+	public String delDeployment(){
+		//1：获取部署对象ID
+		String deploymentId = workflowBean.getDeploymentId();
+		//2：使用部署对象ID，删除流程定义
+		workflowService.deleteProcessDefinitionByDeploymentId(deploymentId);
+		return "list";
+	}
 }

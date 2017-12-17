@@ -50,6 +50,9 @@
         		<param name="actionName">workflowAction_deployHome.action</param>
         	</result>
         	<result name="task">WEB-INF/views/workflow/task.jsp</result>
+        	<result name="listTask" type="redirectAction">
+    			<param name="actionName">workflowAction_listTask.action</param>
+            </result>
 		</action>
 
 	</package>

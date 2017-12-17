@@ -7,10 +7,12 @@ import java.util.List;
 
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.task.Task;
 import org.apache.struts2.ServletActionContext;
 
 import com.hungteshun.service.ILeaveBillService;
 import com.hungteshun.service.IWorkflowService;
+import com.hungteshun.utils.SessionContext;
 import com.hungteshun.utils.ValueContext;
 import com.hungteshun.web.form.WorkflowBean;
 import com.opensymphony.xwork2.ActionSupport;
@@ -110,5 +112,19 @@ public class WorkflowAction extends ActionSupport implements ModelDriven<Workflo
 		//2：使用部署对象ID，删除流程定义
 		workflowService.deleteProcessDefinitionByDeploymentId(deploymentId);
 		return "list";
+	}
+	
+	
+	/**
+	 * 任务管理首页显示
+	 * @return
+	 */
+	public String listTask(){
+		//1：从Session中获取当前用户名
+		String name = SessionContext.getUser().getName();
+		//2：使用当前用户名查询正在执行的任务表，获取当前任务的集合List<Task>
+		List<Task> list = workflowService.findTaskListByName(name); 
+		ValueContext.putValueContext("list", list);
+		return "task";
 	}
 }

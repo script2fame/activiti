@@ -54,7 +54,7 @@ public class WorkflowAction extends ActionSupport implements ModelDriven<Workflo
 		List<Deployment> depList = workflowService.findDeploymentList();
 		//2:查询流程定义的信息，对应表（act_re_procdef）
 		List<ProcessDefinition> pdList = workflowService.findProcessDefinitionList();
-		//放置到上下文对象中
+		//将查询到的信息放置在值栈中
 		ValueContext.putValueContext("depList", depList);
 		ValueContext.putValueContext("pdList", pdList);
 		return "deployHome";

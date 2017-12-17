@@ -7,10 +7,12 @@ import java.util.List;
 
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.task.Task;
 import org.apache.struts2.ServletActionContext;
 
 import com.hungteshun.service.ILeaveBillService;
 import com.hungteshun.service.IWorkflowService;
+import com.hungteshun.utils.SessionContext;
 import com.hungteshun.utils.ValueContext;
 import com.hungteshun.web.form.WorkflowBean;
 import com.opensymphony.xwork2.ActionSupport;
@@ -47,68 +49,91 @@ public class WorkflowAction extends ActionSupport implements ModelDriven<Workflo
 
 	/**
 	 * 部署流程对象
+	 * 
 	 * @return
 	 */
-	public String deployHome(){
-		//1:查询部署对象信息，对应表（act_re_deployment）
+	public String deployHome() {
+		// 1:查询部署对象信息，对应表（act_re_deployment）
 		List<Deployment> depList = workflowService.findDeploymentList();
-		//2:查询流程定义的信息，对应表（act_re_procdef）
+		// 2:查询流程定义的信息，对应表（act_re_procdef）
 		List<ProcessDefinition> pdList = workflowService.findProcessDefinitionList();
-		//将查询到的信息放置在值栈中
+		// 将查询到的信息放置在值栈中
 		ValueContext.putValueContext("depList", depList);
 		ValueContext.putValueContext("pdList", pdList);
 		return "deployHome";
 	}
-	
+
 	/**
 	 * 发布流程
+	 * 
 	 * @return
 	 */
-	public String newdeploy(){
-		//获取页面传递的值
-		//1：获取页面上传递的zip格式的文件，格式是File类型
+	public String newdeploy() {
+		// 获取页面传递的值
+		// 1：获取页面上传递的zip格式的文件，格式是File类型
 		File file = workflowBean.getFile();
-		//文件名称
+		// 文件名称
 		String filename = workflowBean.getFilename();
-		//完成部署
-		workflowService.saveNewDeploye(file,filename);
+		// 完成部署
+		workflowService.saveNewDeploye(file, filename);
 		return "list";
 	}
-	
+
 	/**
 	 * 查看流程图
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
-	public String viewImage() throws Exception{
-		//1：获取页面传递的部署对象ID和资源图片名称
-		//部署对象ID
+	public String viewImage() throws Exception {
+		// 1：获取页面传递的部署对象ID和资源图片名称
+		// 部署对象ID
 		String deploymentId = workflowBean.getDeploymentId();
-		//资源图片名称
+		// 资源图片名称
 		String imageName = workflowBean.getImageName();
-		//2：获取资源文件表（act_ge_bytearray）中资源图片输入流InputStream
-		InputStream in = workflowService.findImageInputStream(deploymentId,imageName);
-		//3：从response对象获取输出流
+		// 2：获取资源文件表（act_ge_bytearray）中资源图片输入流InputStream
+		InputStream in = workflowService.findImageInputStream(deploymentId, imageName);
+		// 3：从response对象获取输出流
 		OutputStream out = ServletActionContext.getResponse().getOutputStream();
 		int b = -1;
-		//4：将输入流中的数据读取出来，写到输出流中
-		while((b = in.read()) > -1){
+		// 4：将输入流中的数据读取出来，写到输出流中
+		while ((b = in.read()) > -1) {
 			out.write(b);
 		}
 		out.close();
 		in.close();
-		//将图写到页面上，用输出流写
+		// 将图写到页面上，用输出流写
 		return null;
 	}
-	
-	
+
 	/**
 	 * 删除部署信息
 	 */
-	public String delDeployment(){
-		//1：获取部署对象ID
+	public String delDeployment() {
+		// 1：获取部署对象ID
 		String deploymentId = workflowBean.getDeploymentId();
-		//2：使用部署对象ID，删除流程定义
+		// 2：使用部署对象ID，删除流程定义
 		workflowService.deleteProcessDefinitionByDeploymentId(deploymentId);
 		return "list";
+	}
+
+	/**
+	 * 任务管理首页显示
+	 * 
+	 * @return
+	 */
+	public String listTask() {
+		// 1：从Session中获取当前用户名
+		String name = SessionContext.getUser().getName();
+		// 2：使用当前用户名查询正在执行的任务表，获取当前任务的集合List<Task>
+		List<Task> list = workflowService.findTaskListByName(name);
+		ValueContext.putValueContext("list", list);
+		return "task";
+	}
+
+	// 启动流程
+	public String startProcess() {
+		// 更新请假状态，启动流程实例，让启动的流程实例关联业务
+		workflowService.saveStartProcess(workflowBean);
+		return "listTask";
 	}
 }

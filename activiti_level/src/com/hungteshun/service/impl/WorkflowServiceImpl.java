@@ -1,6 +1,7 @@
 package com.hungteshun.service.impl;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 import java.util.zip.ZipInputStream;
 
@@ -91,6 +92,12 @@ public class WorkflowServiceImpl implements IWorkflowService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	//通过输入流获取图片信息
+	@Override
+	public InputStream findImageInputStream(String deploymentId, String imageName) {
+		return repositoryService.getResourceAsStream(deploymentId, imageName);
 	}
 
 	

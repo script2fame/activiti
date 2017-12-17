@@ -1,10 +1,13 @@
 package com.hungteshun.web.action;
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.apache.struts2.ServletActionContext;
 
 import com.hungteshun.service.ILeaveBillService;
 import com.hungteshun.service.IWorkflowService;
@@ -70,5 +73,30 @@ public class WorkflowAction extends ActionSupport implements ModelDriven<Workflo
 		//完成部署
 		workflowService.saveNewDeploye(file,filename);
 		return "list";
+	}
+	
+	/**
+	 * 查看流程图
+	 * @throws Exception 
+	 */
+	public String viewImage() throws Exception{
+		//1：获取页面传递的部署对象ID和资源图片名称
+		//部署对象ID
+		String deploymentId = workflowBean.getDeploymentId();
+		//资源图片名称
+		String imageName = workflowBean.getImageName();
+		//2：获取资源文件表（act_ge_bytearray）中资源图片输入流InputStream
+		InputStream in = workflowService.findImageInputStream(deploymentId,imageName);
+		//3：从response对象获取输出流
+		OutputStream out = ServletActionContext.getResponse().getOutputStream();
+		int b = -1;
+		//4：将输入流中的数据读取出来，写到输出流中
+		while((b = in.read()) > -1){
+			out.write(b);
+		}
+		out.close();
+		in.close();
+		//将图写到页面上，用输出流写
+		return null;
 	}
 }

@@ -162,8 +162,7 @@ a {text-decoration:none;color:black}
   <tr>
     <td height="19" background="images/main_69.gif"><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <td width="1%">&nbsp;</td>
-        <td width="99%" valign="bottom"><span class="STYLE3">刘洋(QQ:506069708)</span></td>
+        <td width="100%" valign="bottom"><span class="STYLE3">hungteshun(QQ:1213196326)</span></td>
       </tr>
     </table></td>
   </tr>

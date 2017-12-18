@@ -230,9 +230,20 @@ public class WorkflowServiceImpl implements IWorkflowService {
 		return list;
 	}
 
+	//获取批注信息
 	@Override
 	public List<Comment> findCommentByTaskId(String taskId) {
-		return null;
+		List<Comment> list = new ArrayList<Comment>();
+		//使用当前的任务ID，查询当前流程对应的历史任务ID
+		//使用当前任务ID，获取当前任务对象
+		Task task = taskService.createTaskQuery()//
+				.taskId(taskId)//使用任务ID查询
+				.singleResult();
+		//获取流程实例ID
+		String processInstanceId = task.getProcessInstanceId();
+		//使用流程实例ID，查询历史任务，获取历史任务对应的每个任务ID
+		list = taskService.getProcessInstanceComments(processInstanceId);
+		return list;
 	}
 
 }

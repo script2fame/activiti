@@ -6,8 +6,10 @@ import java.util.List;
 
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 
+import com.hungteshun.domain.LeaveBill;
 import com.hungteshun.web.form.WorkflowBean;
 
 
@@ -34,6 +36,18 @@ public interface IWorkflowService {
 
 	//启动流程
 	void saveStartProcess(WorkflowBean workflowBean);
+
+	//查看任务表单
+	String findTaskFormKeyByTaskId(String taskId);
+
+	//使用任务ID，查找请假单ID，从而获取请假单信息
+	LeaveBill findLeaveBillByTaskId(String taskId);
+
+	//获取当前任务完成之后的连线名称
+	List<String> findOutComeListByTaskId(String taskId);
+
+	//查询所有历史审核人的审核信息
+	List<Comment> findCommentByTaskId(String taskId);
 
 
 }

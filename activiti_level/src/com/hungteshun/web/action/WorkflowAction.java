@@ -7,9 +7,11 @@ import java.util.List;
 
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 import org.apache.struts2.ServletActionContext;
 
+import com.hungteshun.domain.LeaveBill;
 import com.hungteshun.service.ILeaveBillService;
 import com.hungteshun.service.IWorkflowService;
 import com.hungteshun.utils.SessionContext;
@@ -135,5 +137,37 @@ public class WorkflowAction extends ActionSupport implements ModelDriven<Workflo
 		// 更新请假状态，启动流程实例，让启动的流程实例关联业务
 		workflowService.saveStartProcess(workflowBean);
 		return "listTask";
+	}
+
+	/**
+	 * 打开任务表单
+	 */
+	public String viewTaskForm() {
+		// 任务ID
+		String taskId = workflowBean.getTaskId();
+		// 获取任务表单中任务节点的url连接
+		String url = workflowService.findTaskFormKeyByTaskId(taskId);
+		url += "?taskId=" + taskId;
+		ValueContext.putValueContext("url", url);
+		return "viewTaskForm";
+	}
+
+	// 准备表单数据
+	public String audit() {
+		// 获取任务ID
+		String taskId = workflowBean.getTaskId();
+		/** 一：使用任务ID，查找请假单ID，从而获取请假单信息 */
+		LeaveBill leaveBill = workflowService.findLeaveBillByTaskId(taskId);
+		ValueContext.putValueStack(leaveBill);
+		/**
+		 * 二：已知任务ID，查询ProcessDefinitionEntiy对象，从而获取当前任务完成之后的连线名称，并放置到List
+		 * <String>集合中
+		 */
+		List<String> outcomeList = workflowService.findOutComeListByTaskId(taskId);
+		ValueContext.putValueContext("outcomeList", outcomeList);
+		/** 三：查询所有历史审核人的审核信息，帮助当前人完成审核，返回List<Comment> */
+		List<Comment> commentList = workflowService.findCommentByTaskId(taskId);
+		ValueContext.putValueContext("commentList", commentList);
+		return "taskForm";
 	}
 }

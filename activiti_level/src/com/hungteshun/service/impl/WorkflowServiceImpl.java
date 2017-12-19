@@ -215,15 +215,14 @@ public class WorkflowServiceImpl implements IWorkflowService {
 		ActivityImpl activityImpl = processDefinitionEntity.findActivity(activityId);
 		// 5：获取当前活动完成之后连线的名称
 		List<PvmTransition> pvmList = activityImpl.getOutgoingTransitions();
-		//返回存放连线的名称集合
+		// 返回存放连线的名称集合
 		List<String> list = new ArrayList<String>();
-		if(pvmList!=null && pvmList.size()>0){
-			for(PvmTransition pvm:pvmList){
+		if (pvmList != null && pvmList.size() > 0) {
+			for (PvmTransition pvm : pvmList) {
 				String name = (String) pvm.getProperty("name");
-				if(StringUtils.isNotBlank(name)){
+				if (StringUtils.isNotBlank(name)) {
 					list.add(name);
-				}
-				else{
+				} else {
 					list.add("默认提交");
 				}
 			}
@@ -231,82 +230,99 @@ public class WorkflowServiceImpl implements IWorkflowService {
 		return list;
 	}
 
-	//获取批注信息
+	// 获取批注信息
 	@Override
 	public List<Comment> findCommentByTaskId(String taskId) {
-		//使用当前的任务ID，查询当前流程对应的历史任务ID
-		//使用当前任务ID，获取当前任务对象
+		// 使用当前的任务ID，查询当前流程对应的历史任务ID
+		// 使用当前任务ID，获取当前任务对象
 		Task task = taskService.createTaskQuery()//
-				.taskId(taskId)//使用任务ID查询
+				.taskId(taskId)// 使用任务ID查询
 				.singleResult();
-		//获取流程实例ID
+		// 获取流程实例ID
 		String processInstanceId = task.getProcessInstanceId();
-		//使用流程实例ID，查询历史任务，获取历史任务对应的每个任务ID
+
+		// 使用流程实例ID，查询历史任务，获取历史任务对应的每个任务ID
+		// List<HistoricTaskInstance> htiList =
+		// historyService.createHistoricTaskInstanceQuery()//历史任务表查询
+		// .processInstanceId(processInstanceId)//使用流程实例ID查询
+		// .list();
+		// //遍历集合，获取每个任务ID
+		// if(htiList!=null && htiList.size()>0){
+		// for(HistoricTaskInstance hti:htiList){
+		// //任务ID
+		// String htaskId = hti.getId();
+		// //获取批注信息
+		// List<Comment> taskList =
+		// taskService.getTaskComments(htaskId);//对用历史完成后的任务ID
+		// list.addAll(taskList);
+		// }
+		// }
+		// 使用流程实例ID，查询历史任务，获取历史任务对应的每个任务ID
 		List<Comment> list = new ArrayList<Comment>();
 		list = taskService.getProcessInstanceComments(processInstanceId);
 		return list;
 	}
-	
-	//完成任务
+
+	// 完成任务
 	@Override
 	public void saveSubmitTask(WorkflowBean workflowBean) {
-		//获取任务ID
-				String taskId = workflowBean.getTaskId();
-				//获取连线的名称
-				String outcome = workflowBean.getOutcome();
-				//批注信息
-				String message = workflowBean.getComment();
-				//获取请假单ID
-				Long id = workflowBean.getId();
-				
-				/**
-				 * 1：在完成之前，添加一个批注信息，向act_hi_comment表中添加数据，用于记录对当前申请人的一些审核信息
-				 */
-				//使用任务ID，查询任务对象，获取流程流程实例ID
-				Task task = taskService.createTaskQuery()//
-								.taskId(taskId)//使用任务ID查询
-								.singleResult();
-				//获取流程实例ID
-				String processInstanceId = task.getProcessInstanceId();
-				/**
-				 * 注意：添加批注的时候，由于Activiti底层代码是使用：
-				 * 		String userId = Authentication.getAuthenticatedUserId();
-					    CommentEntity comment = new CommentEntity();
-					    comment.setUserId(userId);
-					  所有需要从Session中获取当前登录人，作为该任务的办理人（审核人），对应act_hi_comment表中的User_ID的字段，如果不添加审核人，则该字段为null
-					 所以要求，添加配置执行使用Authentication.setAuthenticatedUserId();添加当前任务的审核人
-				 * */
-				Authentication.setAuthenticatedUserId(SessionContext.getUser().getName());
-				taskService.addComment(taskId, processInstanceId, message);
-				
-				/**
-				 * 2：如果连线的名称是“默认提交”，那么就不需要设置，如果不是，就需要设置流程变量
-				 * 在完成任务之前，设置流程变量，工作流按照连线的名称，去走哪一条连线，从而进入到下一个不同的任务
-						 流程变量的名称：outcome
-						 流程变量的值：连线的名称
-				 */
-				Map<String, Object> variables = new HashMap<String,Object>();
-				if(outcome!=null && !outcome.equals("默认提交")){
-					variables.put("outcome", outcome);
-				}
-				
-				//3：使用任务ID，完成当前人的个人任务，同时流程变量
-				taskService.complete(taskId, variables);
-				//4：当任务完成之后，需要指定下一个任务的办理人（使用类）-----已经开发完成
-				
-				/**
-				 * 5：在完成任务之后，判断流程是否结束
-		   			如果流程结束了，更新请假单表的状态从1变成2（审核中-->审核完成）
-				 */
-				ProcessInstance pi = runtimeService.createProcessInstanceQuery()//
-								.processInstanceId(processInstanceId)//使用流程实例ID查询
-								.singleResult();
-				//流程结束了
-				if(pi==null){
-					//更新请假单表的状态从1变成2（审核中-->审核完成）
-					LeaveBill bill = leaveBillDao.findLeaveBillById(id);
-					bill.setState(2);
-				}
+		// 获取任务ID
+		String taskId = workflowBean.getTaskId();
+		// 获取连线的名称
+		String outcome = workflowBean.getOutcome();
+		// 批注信息
+		String message = workflowBean.getComment();
+		// 获取请假单ID
+		Long id = workflowBean.getId();
+
+		/**
+		 * 1：在完成之前，添加一个批注信息，向act_hi_comment表中添加数据，用于记录对当前申请人的一些审核信息
+		 */
+		// 使用任务ID，查询任务对象，获取流程流程实例ID
+		Task task = taskService.createTaskQuery()//
+				.taskId(taskId)// 使用任务ID查询
+				.singleResult();
+		// 获取流程实例ID
+		String processInstanceId = task.getProcessInstanceId();
+		/**
+		 * 注意：添加批注的时候，由于Activiti底层代码是使用： String userId =
+		 * Authentication.getAuthenticatedUserId(); CommentEntity comment = new
+		 * CommentEntity(); comment.setUserId(userId);
+		 * 所有需要从Session中获取当前登录人，作为该任务的办理人（审核人），对应act_hi_comment表中的User_ID的字段，
+		 * 如果不添加审核人，则该字段为null
+		 * 所以要求，添加配置执行使用Authentication.setAuthenticatedUserId();添加当前任务的审核人
+		 */
+		Authentication.setAuthenticatedUserId(SessionContext.getUser().getName());
+		taskService.addComment(taskId, processInstanceId, message);
+
+		/**
+		 * 2：如果连线的名称是“默认提交”，那么就不需要设置，如果不是，就需要设置流程变量
+		 * 在完成任务之前，设置流程变量，工作流按照连线的名称，去走哪一条连线，从而进入到下一个不同的任务 流程变量的名称：outcome
+		 * 流程变量的值：连线的名称
+		 */
+		Map<String, Object> variables = new HashMap<String, Object>();
+		if (outcome != null && !outcome.equals("默认提交")) {
+			variables.put("outcome", outcome);
+		}
+
+		// 3：使用任务ID，完成当前人的个人任务，同时流程变量
+		taskService.complete(taskId, variables);
+		// 4：当任务完成之后，需要指定下一个任务的办理人（使用类）-----已经开发完成
+
+		/**
+		 * 5：在完成任务之后，判断流程是否结束 如果流程结束了，更新请假单表的状态从1变成2（审核中-->审核完成）
+		 */
+		ProcessInstance pi = runtimeService.createProcessInstanceQuery()//
+				.processInstanceId(processInstanceId)// 使用流程实例ID查询
+				.singleResult();
+		// 流程结束了
+		if (pi == null) {
+			// 更新请假单表的状态从1变成2（审核中-->审核完成）
+			LeaveBill bill = leaveBillDao.findLeaveBillById(id);
+			bill.setState(2);
+		}
 	}
+
+	
 
 }

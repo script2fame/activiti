@@ -49,5 +49,8 @@ public interface IWorkflowService {
 	//查询所有历史审核人的审核信息
 	List<Comment> findCommentByTaskId(String taskId);
 
+	//完成任务
+	void saveSubmitTask(WorkflowBean workflowBean);
+
 
 }

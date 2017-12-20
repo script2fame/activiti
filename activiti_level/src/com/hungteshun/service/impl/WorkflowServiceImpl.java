@@ -15,6 +15,7 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.form.TaskFormData;
+import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.pvm.PvmTransition;
@@ -323,6 +324,31 @@ public class WorkflowServiceImpl implements IWorkflowService {
 		}
 	}
 
-	
+	// 通过请假单id查询该请假单所有的历史批注
+	@Override
+	public List<Comment> findCommentByLeaveBillId(Long id) {
+		// 使用请假单ID，查询请假单对象
+		LeaveBill leaveBill = leaveBillDao.findLeaveBillById(id);
+		// 获取对象的名称
+		String objectName = leaveBill.getClass().getSimpleName();
+		// 组织流程表中的字段中的值
+		String objId = objectName + "." + id;
+
+		/** 方法1:使用历史的流程实例查询，返回历史的流程实例对象，获取流程实例ID */
+		// HistoricProcessInstance hpi =
+		// historyService.createHistoricProcessInstanceQuery()//对应历史的流程实例表
+		// .processInstanceBusinessKey(objId)//使用BusinessKey字段查询
+		// .singleResult();
+		// //流程实例ID
+		// String processInstanceId = hpi.getId();
+		/** 方法2:使用历史的流程变量查询，返回历史的流程变量的对象，获取流程实例ID */
+		HistoricVariableInstance hvi = historyService.createHistoricVariableInstanceQuery()// 对应历史的流程变量表
+				.variableValueEquals("objId", objId)// 使用流程变量的名称和流程变量的值查询
+				.singleResult();
+		// 流程实例ID
+		String processInstanceId = hvi.getProcessInstanceId();
+		List<Comment> list = taskService.getProcessInstanceComments(processInstanceId);
+		return list;
+	}
 
 }

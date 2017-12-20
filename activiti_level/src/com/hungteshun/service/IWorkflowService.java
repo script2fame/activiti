@@ -52,7 +52,8 @@ public interface IWorkflowService {
 	//完成任务
 	void saveSubmitTask(WorkflowBean workflowBean);
 
-	
+	//通过请假单id查询该请假单所有的历史批注
+	List<Comment> findCommentByLeaveBillId(Long id);
 
 
 }

@@ -179,5 +179,16 @@ public class WorkflowAction extends ActionSupport implements ModelDriven<Workflo
 		return "listTask";
 	}
 	
-	
+	// 查看历史的批注信息
+		public String viewHisComment(){
+			//获取清单ID
+			Long id = workflowBean.getId();
+			//1：使用请假单ID，查询请假单对象，将对象放置到栈顶，支持表单回显
+			LeaveBill leaveBill = leaveBillService.findLeaveBillById(id);
+			ValueContext.putValueStack(leaveBill);
+			//2：使用请假单ID，查询历史的批注信息
+			List<Comment> commentList = workflowService.findCommentByLeaveBillId(id);
+			ValueContext.putValueContext("commentList", commentList);
+			return "viewHisComment";
+		}
 }

@@ -58,6 +58,7 @@
         		<param name="actionName">/${#url}</param>
         	</result>
         	<result name="taskForm">WEB-INF/views/workflow/taskForm.jsp</result>
+        	<result name="viewHisComment">WEB-INF/views/workflow/taskFormHis.jsp</result>
 		</action>
 
 	</package>

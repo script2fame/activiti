@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -190,5 +191,23 @@ public class WorkflowAction extends ActionSupport implements ModelDriven<Workflo
 			List<Comment> commentList = workflowService.findCommentByLeaveBillId(id);
 			ValueContext.putValueContext("commentList", commentList);
 			return "viewHisComment";
+		}
+		
+		/**
+		 * 查看当前流程图（查看当前活动节点，并使用红色的框标注）
+		 */
+		public String viewCurrentImage(){
+			//任务ID
+			String taskId = workflowBean.getTaskId();
+			/**一：查看流程图*/
+			//1：获取任务ID，获取任务对象，使用任务对象获取流程定义ID，查询流程定义对象
+			ProcessDefinition pd = workflowService.findProcessDefinitionByTaskId(taskId);
+			//workflowAction_viewImage?deploymentId=<s:property value='#deploymentId'/>&imageName=<s:property value='#imageName'/>
+			ValueContext.putValueContext("deploymentId", pd.getDeploymentId());
+			ValueContext.putValueContext("imageName", pd.getDiagramResourceName());
+			/**二：查看当前活动，获取当期活动对应的坐标x,y,width,height，将4个值存放到Map<String,Object>中*/
+			Map<String, Object> map = workflowService.findCoordingByTask(taskId);
+			ValueContext.putValueContext("acs", map);
+			return "image";
 		}
 }

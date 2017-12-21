@@ -3,6 +3,7 @@ package com.hungteshun.service;
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -54,6 +55,13 @@ public interface IWorkflowService {
 
 	//通过请假单id查询该请假单所有的历史批注
 	List<Comment> findCommentByLeaveBillId(Long id);
+
+	//通过任务id查询流程定义对象
+	ProcessDefinition findProcessDefinitionByTaskId(String taskId);
+
+	//查看当前活动，获取当期活动对应的坐标
+	Map<String, Object> findCoordingByTask(String taskId);
+
 
 
 }

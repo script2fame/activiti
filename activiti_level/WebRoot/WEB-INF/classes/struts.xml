@@ -59,6 +59,7 @@
         	</result>
         	<result name="taskForm">WEB-INF/views/workflow/taskForm.jsp</result>
         	<result name="viewHisComment">WEB-INF/views/workflow/taskFormHis.jsp</result>
+        	<result name="image">WEB-INF/views/workflow/image.jsp</result>
 		</action>
 
 	</package>

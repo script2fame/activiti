@@ -36,30 +36,31 @@
 			<result name="welcome">WEB-INF/views/welcome.jsp</result>
 		</action>
 
-		<action name="leaveBillAction_*" class="leaveBillAction" method="{1}">
+		<action name="leaveBillAction_*" class="leaveBillAction"
+			method="{1}">
 			<result name="home">WEB-INF/views/leaveBill/list.jsp</result>
 			<result name="input">WEB-INF/views/leaveBill/input.jsp</result>
 			<result name="save" type="redirectAction">
-        		<param name="actionName">leaveBillAction_home.action</param>
-        	</result>
+				<param name="actionName">leaveBillAction_home.action</param>
+			</result>
 		</action>
 
 		<action name="workflowAction_*" class="workflowAction" method="{1}">
 			<result name="deployHome">WEB-INF/views/workflow/workflow.jsp</result>
 			<result name="list" type="redirectAction">
-        		<param name="actionName">workflowAction_deployHome.action</param>
-        	</result>
-        	<result name="task">WEB-INF/views/workflow/task.jsp</result>
-        	<result name="listTask" type="redirectAction">
-    			<param name="actionName">workflowAction_listTask.action</param>
-            </result>
-            <result name="viewTaskForm" type="redirectAction">
-        		<!-- 从LeaveBill.bpmn文件中获取任务节点的url连接 -->
-        		<param name="actionName">/${#url}</param>
-        	</result>
-        	<result name="taskForm">WEB-INF/views/workflow/taskForm.jsp</result>
-        	<result name="viewHisComment">WEB-INF/views/workflow/taskFormHis.jsp</result>
-        	<result name="image">WEB-INF/views/workflow/image.jsp</result>
+				<param name="actionName">workflowAction_deployHome.action</param>
+			</result>
+			<result name="task">WEB-INF/views/workflow/task.jsp</result>
+			<result name="listTask" type="redirectAction">
+				<param name="actionName">workflowAction_listTask.action</param>
+			</result>
+			<result name="viewTaskForm" type="redirectAction">
+				<!-- 从LeaveBill.bpmn文件中获取任务节点的url连接 -->
+				<param name="actionName">/${#url}</param>
+			</result>
+			<result name="taskForm">WEB-INF/views/workflow/taskForm.jsp</result>
+			<result name="viewHisComment">WEB-INF/views/workflow/taskFormHis.jsp</result>
+			<result name="image">WEB-INF/views/workflow/image.jsp</result>
 		</action>
 
 	</package>

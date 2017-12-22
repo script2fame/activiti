@@ -171,43 +171,42 @@ public class WorkflowAction extends ActionSupport implements ModelDriven<Workflo
 		ValueContext.putValueContext("commentList", commentList);
 		return "taskForm";
 	}
-	
+
 	/**
 	 * 提交任务
 	 */
-	public String submitTask(){
+	public String submitTask() {
 		workflowService.saveSubmitTask(workflowBean);
 		return "listTask";
 	}
-	
+
 	// 查看历史的批注信息
-		public String viewHisComment(){
-			//获取清单ID
-			Long id = workflowBean.getId();
-			//1：使用请假单ID，查询请假单对象，将对象放置到栈顶，支持表单回显
-			LeaveBill leaveBill = leaveBillService.findLeaveBillById(id);
-			ValueContext.putValueStack(leaveBill);
-			//2：使用请假单ID，查询历史的批注信息
-			List<Comment> commentList = workflowService.findCommentByLeaveBillId(id);
-			ValueContext.putValueContext("commentList", commentList);
-			return "viewHisComment";
-		}
-		
-		/**
-		 * 查看当前流程图（查看当前活动节点，并使用红色的框标注）
-		 */
-		public String viewCurrentImage(){
-			//任务ID
-			String taskId = workflowBean.getTaskId();
-			/**一：查看流程图*/
-			//1：获取任务ID，获取任务对象，使用任务对象获取流程定义ID，查询流程定义对象
-			ProcessDefinition pd = workflowService.findProcessDefinitionByTaskId(taskId);
-			//workflowAction_viewImage?deploymentId=<s:property value='#deploymentId'/>&imageName=<s:property value='#imageName'/>
-			ValueContext.putValueContext("deploymentId", pd.getDeploymentId());
-			ValueContext.putValueContext("imageName", pd.getDiagramResourceName());
-			/**二：查看当前活动，获取当期活动对应的坐标x,y,width,height，将4个值存放到Map<String,Object>中*/
-			Map<String, Object> map = workflowService.findCoordingByTask(taskId);
-			ValueContext.putValueContext("acs", map);
-			return "image";
-		}
+	public String viewHisComment() {
+		// 获取清单ID
+		Long id = workflowBean.getId();
+		// 1：使用请假单ID，查询请假单对象，将对象放置到栈顶，支持表单回显
+		LeaveBill leaveBill = leaveBillService.findLeaveBillById(id);
+		ValueContext.putValueStack(leaveBill);
+		// 2：使用请假单ID，查询历史的批注信息
+		List<Comment> commentList = workflowService.findCommentByLeaveBillId(id);
+		ValueContext.putValueContext("commentList", commentList);
+		return "viewHisComment";
+	}
+
+	/**
+	 * 查看当前流程图（查看当前活动节点，并使用红色的框标注）
+	 */
+	public String viewCurrentImage() {
+		// 任务ID
+		String taskId = workflowBean.getTaskId();
+		/** 一：查看流程图 */
+		// 得到任务ID，获取任务对象，使用任务对象获取流程定义ID，查询流程定义对象
+		ProcessDefinition pd = workflowService.findProcessDefinitionByTaskId(taskId);
+		ValueContext.putValueContext("deploymentId", pd.getDeploymentId());
+		ValueContext.putValueContext("imageName", pd.getDiagramResourceName());
+		/** 二：查看当前活动，获取当期活动对应的坐标x,y,width,height，将4个值存放到Map<String,Object>中 */
+		Map<String, Object> map = workflowService.findCoordingByTask(taskId);
+		ValueContext.putValueContext("acs", map);
+		return "image";
+	}
 }
